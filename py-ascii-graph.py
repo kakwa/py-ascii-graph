@@ -41,12 +41,18 @@ class Pyasciigraph:
         return u'█' * number_of_square + u' ' * number_of_space
 
     def _gen_info_string(self, info, start_info,line_length):
-        return info + u' ' * (line_length - start_info - len(info))
+        number_of_space = (line_length - start_info - len(info))
+        return info + u' ' * number_of_space
 
     def _gen_value_string(self, value, start_value, start_info):
-        number_space = start_info - start_value - len(unicode(value))
-        return unicode(value) + u' ' * number_space
+        number_space = start_info -\
+                start_value -\
+                len(unicode(value)) -\
+                self.separator_length
 
+        return  u' ' * number_space +\
+                unicode(value) +\
+                u' ' * self.separator_length
 
     def graph(self, label, data, sort=0, with_value=True):
         """
