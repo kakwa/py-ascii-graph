@@ -90,6 +90,10 @@ pygments_style = 'sphinx'
 # If true, keep warnings as "system message" paragraphs in the built documents.
 #keep_warnings = False
 
+# Change what gets used to create a class's documentation.
+# http://sphinx-doc.org/ext/autodoc.html#confval-autoclass_content
+autoclass_content = 'both'
+
 
 # -- Options for HTML output ---------------------------------------------------
 
