@@ -19,3 +19,11 @@ test print
 █████████                                                       200  line4     
 █████████████████████████████████████████                       834  line5
 ```
+
+## Installation ##
+
+    [$]> pip install ascii_graph
+
+or
+
+    [$]> easy_install ascii_graph
