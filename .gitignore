@@ -3,6 +3,9 @@
 # C extensions
 *.so
 
+# Virtualenv
+env
+
 # Packages
 *.egg
 *.egg-info
@@ -10,7 +13,7 @@ dist
 build
 eggs
 parts
-bin
+MANIFEST
 var
 sdist
 develop-eggs
@@ -25,6 +28,9 @@ pip-log.txt
 .coverage
 .tox
 nosetests.xml
+
+# Documentation
+docs/_build
 
 # Translations
 *.mo

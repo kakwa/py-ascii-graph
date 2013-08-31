@@ -7,12 +7,13 @@ class Pyasciigraph:
             min_graph_length=50, 
             separator_length=2
             ):
-        """constructor of Pyasciigraph
-        arg1: the max number of char on a line
+        """Constructor of Pyasciigraph
+        
+        :param int line_length: the max number of char on a line
                 if any line cannot be shorter, 
                 it will go over this limit
-        arg2: the min number of char used by the graph
-        arg3: the length of field separator
+        :param int min_graph_length: the min number of char used by the graph
+        :param int separator_length: the length of field separator
         """
         self.line_length = line_length
         self.separator_length = separator_length
@@ -55,18 +56,18 @@ class Pyasciigraph:
                 u' ' * self.separator_length
 
     def graph(self, label, data, sort=0, with_value=True):
-        """
-        function generating the graph
-        arg1: the label of the graph (string)
-        arg2: the data (list of tuple (info, value))
-        arg3: flag sorted
+        """function generating the graph
+        
+        :param string label: the label of the graph
+        :param iterable data: the data (list of tuple (info, value))
+        :param int sort: flag sorted
                 0: not sorted (same order as given) (default)
                 1: ascending order
                 2: discendinf order
-        arg4: flag printing value
+        :param boolean with_value: flag printing value
                 True: print the numeric value (default)
                 False: don't print the numeric value
-        return: a list of string (each lines)
+        :rtype: a list of strings (each lines)
 
         """
         result = []
@@ -131,7 +132,8 @@ class Pyasciigraph:
 
         return result
 
-test=[('long_label', 423), ('sl', 1234), ('line3', 531), ('line4', 200), ('line5', 834)]
-graph=Pyasciigraph()
-for line in  graph.graph('test print', test):
-    print line
+if __name__ == '__main__':
+    test=[('long_label', 423), ('sl', 1234), ('line3', 531), ('line4', 200), ('line5', 834)]
+    graph=Pyasciigraph()
+    for line in  graph.graph('test print', test):
+        print line
