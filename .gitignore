@@ -3,6 +3,9 @@
 # C extensions
 *.so
 
+# Virtualenv
+env
+
 # Packages
 *.egg
 *.egg-info
@@ -10,7 +13,7 @@ dist
 build
 eggs
 parts
-bin
+MANIFEST
 var
 sdist
 develop-eggs
