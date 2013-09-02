@@ -62,8 +62,8 @@ class Pyasciigraph:
         :param iterable data: the data (list of tuple (info, value))
         :param int sort: flag sorted
                 0: not sorted (same order as given) (default)
-                1: ascending order
-                2: discendinf order
+                1: increasing order
+                2: decreasing order
         :param boolean with_value: flag printing value
                 True: print the numeric value (default)
                 False: don't print the numeric value
