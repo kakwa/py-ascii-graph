@@ -1,5 +1,5 @@
-# py-ascii-graph #
-==================
+# py-ascii-graph [![Build Status](https://api.travis-ci.org/kakwa/py-ascii-graph.png)](https://travis-ci.org/kakwa/py-ascii-graph) #
+====================================================================================================================================
 
 A simple python lib to print data as ascii histograms
 
