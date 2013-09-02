@@ -37,23 +37,23 @@ class Pyasciigraph:
         return all_max
 
     def _gen_graph_string(self, value, max_value, graph_length, start_value):
-        number_of_square = value * graph_length / max_value
-        number_of_space = start_value - number_of_square
-        return u'█' * number_of_square + u' ' * number_of_space
+        number_of_square = int(value * graph_length / max_value)
+        number_of_space = int(start_value - number_of_square)
+        return '█' * number_of_square + ' ' * number_of_space
 
     def _gen_info_string(self, info, start_info,line_length):
         number_of_space = (line_length - start_info - len(info))
-        return info + u' ' * number_of_space
+        return info + ' ' * number_of_space
 
     def _gen_value_string(self, value, start_value, start_info):
         number_space = start_info -\
                 start_value -\
-                len(unicode(value)) -\
+                len(str(value)) -\
                 self.separator_length
 
-        return  u' ' * number_space +\
-                unicode(value) +\
-                u' ' * self.separator_length
+        return  ' ' * number_space +\
+                str(value) +\
+                ' ' * self.separator_length
 
     def graph(self, label, data, sort=0, with_value=True):
         """function generating the graph
@@ -105,7 +105,7 @@ class Pyasciigraph:
             real_line_length = min_line_length
 
         result.append(label)
-        result.append(u'#' * real_line_length)
+        result.append('#' * real_line_length)
         
 
         for item in data:
@@ -133,8 +133,7 @@ class Pyasciigraph:
         return result
 
 if __name__ == '__main__':
-    test=[('long_label', 423), ('sl', 1234), ('line3', 531), ('line4', 200), ('line5', 834)]
-    graph=Pyasciigraph()
-    print graph.graph('test print', test)
+    test = [('long_label', 423), ('sl', 1234), ('line3', 531), ('line4', 200), ('line5', 834)]
+    graph = Pyasciigraph()
     for line in  graph.graph('test print', test):
-        print line
+        print(line)
