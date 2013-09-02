@@ -29,8 +29,8 @@ class Pyasciigraph:
             if value > all_max['max_value']:
                 all_max['max_value'] = value
 
-            if len(info) > all_max['info_max_length']:
-                all_max['info_max_length'] = len(info)
+            if len(str(info)) > all_max['info_max_length']:
+                all_max['info_max_length'] = len(str(info))
             
             if len(str(value)) > all_max['value_max_length']:
                 all_max['value_max_length'] = len(str(value))
@@ -60,6 +60,8 @@ class Pyasciigraph:
         
         :param string label: the label of the graph
         :param iterable data: the data (list of tuple (info, value))
+                info must be "castable" to a string
+                value must be an int or a float
         :param int sort: flag sorted
                 0: not sorted (same order as given) (default)
                 1: increasing order
@@ -123,7 +125,7 @@ class Pyasciigraph:
                     )
 
             info_string = self._gen_info_string(
-                    item[0],
+                    str(item[0]),
                     start_info,
                     real_line_length
                     )
