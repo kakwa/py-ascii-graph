@@ -1,6 +1,9 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+from __future__ import unicode_literals
+import sys
+
 class Pyasciigraph:
 
     def __init__(self, line_length=79, 
@@ -19,6 +22,13 @@ class Pyasciigraph:
         self.separator_length = separator_length
         self.min_graph_length = min_graph_length
 
+    def _u(self, x):
+        if sys.version < '3':
+            import codecs
+            return codecs.unicode_escape_decode(x)[0]
+        else:
+            return x
+
     def _get_maximum(self, data):
         all_max = {}
         all_max['value_max_length'] = 0
@@ -29,8 +39,8 @@ class Pyasciigraph:
             if value > all_max['max_value']:
                 all_max['max_value'] = value
 
-            if len(str(info)) > all_max['info_max_length']:
-                all_max['info_max_length'] = len(str(info))
+            if len(info) > all_max['info_max_length']:
+                all_max['info_max_length'] = len(info)
             
             if len(str(value)) > all_max['value_max_length']:
                 all_max['value_max_length'] = len(str(value))
@@ -39,11 +49,11 @@ class Pyasciigraph:
     def _gen_graph_string(self, value, max_value, graph_length, start_value):
         number_of_square = int(value * graph_length / max_value)
         number_of_space = int(start_value - number_of_square)
-        return '█' * number_of_square + ' ' * number_of_space
+        return '█' * number_of_square + self._u(' ') * number_of_space
 
-    def _gen_info_string(self, info, start_info,line_length):
+    def _gen_info_string(self, info, start_info, line_length):
         number_of_space = (line_length - start_info - len(info))
-        return info + ' ' * number_of_space
+        return info + self._u(' ') * number_of_space
 
     def _gen_value_string(self, value, start_value, start_info):
         number_space = start_info -\
@@ -54,6 +64,30 @@ class Pyasciigraph:
         return  ' ' * number_space +\
                 str(value) +\
                 ' ' * self.separator_length
+
+    def _sanitize_string(self, string):
+        #get the type of a unicode string
+        unicode_type = type(self._u('t'))
+        input_type = type(string)
+        if input_type is str:
+            if sys.version < '3':
+                info = unicode(string)
+            else: 
+                info = string
+        elif input_type is unicode_type:
+            info = string
+        elif input_type is int or input_type is float:
+            if sys.version < '3':
+                info = unicode(string)
+            else:
+                info = str(string)
+        return info
+
+    def _sanitize_data(self, data):
+        ret = []
+        for item in data:
+            ret.append((self._sanitize_string(item[0]), item[1]))
+        return ret
 
     def graph(self, label, data, sort=0, with_value=True):
         """function generating the graph
@@ -73,7 +107,10 @@ class Pyasciigraph:
 
         """
         result = []
-        all_max = self._get_maximum(data)
+        san_data = self._sanitize_data(data)
+        san_label = self._sanitize_string(label)
+
+        all_max = self._get_maximum(san_data)
         
         real_line_length = max(self.line_length, len(label))
         
@@ -106,26 +143,29 @@ class Pyasciigraph:
             #calcul of the real line length
             real_line_length = min_line_length
 
-        result.append(label)
-        result.append('#' * real_line_length)
+        result.append(san_label)
+        result.append(self._u('#')* real_line_length)
         
 
-        for item in data:
+        for item in san_data:
+            info = item[0]
+            value = item[1]
+
             graph_string = self._gen_graph_string(
-                    item[1], 
+                    value, 
                     all_max['max_value'], 
                     graph_length,
                     start_value
                     )
 
             value_string = self._gen_value_string(
-                    item[1],
+                    value,
                     start_value,
                     start_info
                     )
 
             info_string = self._gen_info_string(
-                    str(item[0]),
+                    info,
                     start_info,
                     real_line_length
                     )
