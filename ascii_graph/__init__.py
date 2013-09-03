@@ -94,7 +94,7 @@ class Pyasciigraph:
         
         :param string label: the label of the graph
         :param iterable data: the data (list of tuple (info, value))
-                info must be "castable" to a string
+                info must be "castable" to a unicode string
                 value must be an int or a float
         :param int sort: flag sorted
                 0: not sorted (same order as given) (default)
