@@ -110,6 +110,11 @@ class Pyasciigraph:
         san_data = self._sanitize_data(data)
         san_label = self._sanitize_string(label)
 
+        if sort == 1:
+            san_data = sorted(san_data, key=lambda value: value[1], reverse=False)
+        elif sort == 2:
+            san_data = sorted(san_data, key=lambda value: value[1], reverse=True)
+
         all_max = self._get_maximum(san_data)
         
         real_line_length = max(self.line_length, len(label))
