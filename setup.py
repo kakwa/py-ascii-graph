@@ -46,7 +46,7 @@ setup(
     author = 'Pierre-Francois Carpentier',
     author_email = 'carpentier.pf@gmail.com',
     packages = ['ascii_graph'],
-    scripts = [],
+    scripts = ['scripts/asciigraph'],
     url = 'https://github.com/kakwa/ascii_graph',
     license = license,
     description = 'A simple python lib to print data as ascii histograms.',
