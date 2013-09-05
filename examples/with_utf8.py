@@ -3,13 +3,9 @@
 
 import sys
 
-def u(x):
-    if sys.version < '3':
-        import codecs
-        return codecs.unicode_escape_decode(x)[0]
-    else:
-        return x
-
+if sys.version > '3':
+    print "this example only work with python 2"
+    exit(1)
 
 from ascii_graph import Pyasciigraph
 
@@ -17,5 +13,5 @@ data = [(u'long_labe☭', 423), ('sl', 1234), ('line3', 531), ('line4', 200), ('
 
 graph = Pyasciigraph()
 for line in graph.graph(u'☭test print', data):
-        print(line)
+        print(line.encode('utf-8'))
 
