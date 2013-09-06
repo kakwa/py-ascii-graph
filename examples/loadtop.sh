@@ -18,11 +18,11 @@ do
 
     #get the number of char to rewrite
     char=$(( $width * 5 + 7 ))
-    printf \
-       "load threshold:$max\n\
-        load last minute:$load_1\n\
-        load last 5 minutes:$load_5\n\
-        load last 15 minutes:$load_15\n" | asciigraph -w $width -l 'loadtop'
+    printf "\
+load threshold:$max\n\
+load last minute:$load_1\n\
+load last 5 minutes:$load_5\n\
+load last 15 minutes:$load_15\n" | asciigraph -w $width -l 'loadtop'
 
     #going back to where we start writing (overwrite the lines)
     counter=0
