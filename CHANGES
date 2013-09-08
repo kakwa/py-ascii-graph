@@ -1,0 +1,7 @@
+* 0.2.0
+    * Fix number of encoding issues
+    * Add a sort capability
+    * Add unit tests
+    * Add a command line utility (asciigraph)
+* 0.1.0
+    * Initial packaging, initial documentation and overall cleaning (big thanks to James Pearson (xiongchiamiov))
