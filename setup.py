@@ -3,15 +3,10 @@ import os
 import sys
 from distutils.core import setup
 
-# I really prefer Markdown to reStructuredText.  PyPi does not.  This allows me
-# to have things how I'd like, but not throw complaints when people are trying
-# to install the package and they don't have pypandoc or the README in the
-# right place.
-try:
-    import pypandoc
-    description = pypandoc.convert('README.md', 'rst')
-except (OSError, IOError, ImportError):
-    description = ''
+
+f = open(os.path.join(os.path.dirname(__file__), 'README.rst'))
+description = f.read()
+f.close()
 
 try:
     license = open('LICENSE').read()
@@ -54,5 +49,14 @@ setup(
     install_requires = [],
     tests_require=['pytest'],
     cmdclass={'test': PyTest},
+    classifiers=[
+	'Development Status :: 4 - Beta',
+	'Intended Audience :: System Administrators',
+	'Intended Audience :: Developers',
+        'Environment :: Console',
+        'License :: OSI Approved :: MIT License',
+        'Programming Language :: Python',
+        'Programming Language :: Python :: 2.7',
+        'Programming Language :: Python :: 3.2',
+        'Programming Language :: Python :: 3.3']
 )
-
