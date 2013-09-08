@@ -79,6 +79,9 @@ command line:
     ██████████████████████████████████████████████████████████           890.0  yu 
     ████████                                                             123.0  asd
 
+
+See the examples/ directory for more examples.
+
 Installation
 ============
 
