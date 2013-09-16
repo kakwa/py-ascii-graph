@@ -17,7 +17,7 @@ Description
 py-ascii-graph is a simple python library to build ascii histograms. 
 Just give it a label and a list of tuples (description, value) 
 and it will automaticaly creates a nice histogram, 
-whith all the stuff aligned and fitting in a fixed width line (if possible).
+with all the stuff aligned and fitting in a fixed width line (if possible).
 
 py-asciigraph although comes with a command line utility.
 
