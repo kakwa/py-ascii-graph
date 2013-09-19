@@ -8,7 +8,7 @@ old_width=`tput cols`
 
 
 #get number of cores (empiricaly I always try to have load < number of cores)
-max=`cat /proc/cpuinfo|grep processor|wc -l`
+max=`grep -c processor /proc/cpuinfo`
 
 while true
 do
