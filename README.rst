@@ -5,9 +5,10 @@ A simple python lib to print data as ascii histograms
 
 .. image:: https://secure.travis-ci.org/kakwa/py-ascii-graph.png?branch=master
         :target: http://travis-ci.org/kakwa/py-ascii-graph
+        :alt: Travis CI
 
 .. image:: https://pypip.in/d/ascii_graph/badge.png
-    :target: https://crate.io/packages/ascii_graph/
+    :target: https://pypi.python.org/pypi/ascii_graph
     :alt: Number of PyPI downloads
 
 License
