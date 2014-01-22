@@ -4,10 +4,13 @@ import sys
 from distutils.core import setup
 
 
-f = open(os.path.join(os.path.dirname(__file__), 'README.rst'))
-description = f.read()
-f.close()
-
+try:
+    f = open(os.path.join(os.path.dirname(__file__), 'README.rst'))
+    description = f.read()
+    f.close()
+except IOError:
+    description = 'ascii_graph'
+    
 try:
     license = open('LICENSE').read()
 except IOError:
