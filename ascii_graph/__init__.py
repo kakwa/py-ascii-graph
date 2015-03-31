@@ -9,8 +9,7 @@ class Pyasciigraph:
 
     def __init__(self, line_length=79,
             min_graph_length=50,
-            separator_length=2,
-            sort=True
+            separator_length=2
             ):
         """Constructor of Pyasciigraph
 
@@ -163,17 +162,13 @@ class Pyasciigraph:
                 ret.append((self._sanitize_string(item[0]), self._sanitize_value(item[1]), item[2]))
         return ret
 
-    def graph(self, label, data, sort=0, with_value=True):
+    def graph(self, label, data, with_value=True):
         """function generating the graph
 
         :param string label: the label of the graph
         :param iterable data: the data (list of tuple (info, value))
                 info must be "castable" to a unicode string
                 value must be an int or a float
-        :param int sort: flag sorted
-                0: not sorted (same order as given) (default)
-                1: increasing order
-                2: decreasing order
         :param boolean with_value: flag printing value
                 True: print the numeric value (default)
                 False: don't print the numeric value
@@ -183,12 +178,6 @@ class Pyasciigraph:
         result = []
         san_data = self._sanitize_data(data)
         san_label = self._sanitize_string(label)
-
-        if sort == 1:
-            san_data = sorted(san_data, key=lambda value: value[1], reverse=False)
-        elif sort == 2:
-            san_data = sorted(san_data, key=lambda value: value[1], reverse=True)
-
         all_max = self._get_maximum(san_data)
 
         real_line_length = max(self.line_length, len(label))
