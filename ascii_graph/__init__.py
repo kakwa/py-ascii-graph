@@ -6,14 +6,14 @@ import sys
 
 class Pyasciigraph:
 
-    def __init__(self, line_length=79, 
-            min_graph_length=50, 
+    def __init__(self, line_length=79,
+            min_graph_length=50,
             separator_length=2
             ):
         """Constructor of Pyasciigraph
-        
+
         :param int line_length: the max number of char on a line
-                if any line cannot be shorter, 
+                if any line cannot be shorter,
                 it will go over this limit
         :param int min_graph_length: the min number of char used by the graph
         :param int separator_length: the length of field separator
@@ -41,7 +41,7 @@ class Pyasciigraph:
 
             if len(info) > all_max['info_max_length']:
                 all_max['info_max_length'] = len(info)
-            
+
             if len(str(value)) > all_max['value_max_length']:
                 all_max['value_max_length'] = len(str(value))
         return all_max
@@ -49,7 +49,7 @@ class Pyasciigraph:
     def _gen_graph_string(self, value, max_value, graph_length, start_value, color):
         number_of_square = int(value * graph_length / max_value)
         number_of_space = int(start_value - number_of_square)
-	if color is None:
+        if color is None:
             return '█' * number_of_square + self._u(' ') * number_of_space
         else:
             return color + '█' * number_of_square + self._u(' ') * number_of_space + '\033[0m'
@@ -76,7 +76,7 @@ class Pyasciigraph:
         if input_type is str:
             if sys.version < '3':
                 info = unicode(string)
-            else: 
+            else:
                 info = string
         elif input_type is unicode_type:
             info = string
@@ -90,15 +90,15 @@ class Pyasciigraph:
     def _sanitize_data(self, data):
         ret = []
         for item in data:
-	    if (len(item) == 2):
+            if (len(item) == 2):
                 ret.append((self._sanitize_string(item[0]), item[1], None))
-	    if (len(item) == 3):
+            if (len(item) == 3):
                 ret.append((self._sanitize_string(item[0]), item[1], item[2]))
         return ret
 
     def graph(self, label, data, sort=0, with_value=True):
         """function generating the graph
-        
+
         :param string label: the label of the graph
         :param iterable data: the data (list of tuple (info, value))
                 info must be "castable" to a unicode string
@@ -123,9 +123,9 @@ class Pyasciigraph:
             san_data = sorted(san_data, key=lambda value: value[1], reverse=True)
 
         all_max = self._get_maximum(san_data)
-        
+
         real_line_length = max(self.line_length, len(label))
-        
+
         min_line_length = self.min_graph_length +\
                 2 * self.separator_length +\
                 all_max['value_max_length'] +\
@@ -157,19 +157,19 @@ class Pyasciigraph:
 
         result.append(san_label)
         result.append(self._u('#')* real_line_length)
-        
+
 
         for item in san_data:
             info = item[0]
             value = item[1]
-	    color = item[2]
+            color = item[2]
 
             graph_string = self._gen_graph_string(
-                    value, 
-                    all_max['max_value'], 
+                    value,
+                    all_max['max_value'],
                     graph_length,
                     start_value,
-		    color
+                    color
                     )
 
             value_string = self._gen_value_string(
