@@ -3,12 +3,14 @@
 
 from __future__ import unicode_literals
 import sys
+import collections
 
 class Pyasciigraph:
 
     def __init__(self, line_length=79,
             min_graph_length=50,
-            separator_length=2
+            separator_length=2,
+            sort=True
             ):
         """Constructor of Pyasciigraph
 
@@ -35,7 +37,7 @@ class Pyasciigraph:
         all_max['info_max_length'] = 0
         all_max['max_value'] = 0
 
-        for (info, value, color) in data:
+        def _get_maximum_value(value):
             if value > all_max['max_value']:
                 all_max['max_value'] = value
 
@@ -44,29 +46,78 @@ class Pyasciigraph:
 
             if len(str(value)) > all_max['value_max_length']:
                 all_max['value_max_length'] = len(str(value))
+
+        for (info, value, color) in data:
+            if isinstance(value, collections.Iterable):
+                for (ivalue, icolor) in value:
+                    _get_maximum_value(ivalue)
+            else:
+                _get_maximum_value(value)
+
         return all_max
 
     def _gen_graph_string(self, value, max_value, graph_length, start_value, color):
-        number_of_square = int(value * graph_length / max_value)
-        number_of_space = int(start_value - number_of_square)
-        if color is None:
-            return '█' * number_of_square + self._u(' ') * number_of_space
+        def _gen_graph_string_part(value, max_value, graph_length, start_value, color, total_value, lastgraph):
+            number_of_square = int(value * graph_length / max_value)
+            if lastgraph:
+                number_of_space = int(start_value - (total_value * graph_length / max_value) )
+            else:
+                number_of_space = 0
+            if color is None:
+                return '█' * number_of_square + self._u(' ') * number_of_space
+            else:
+                return color + '█' * number_of_square + self._u(' ') * number_of_space + '\033[0m'
+
+        if isinstance(value, collections.Iterable):
+            accuvalue = 0
+            totalstring = self._u('')
+            for i in value:
+                ivalue = i[0]
+                icolor = i[1]
+                scaled_value = ivalue-accuvalue
+                # Check if last item in list, if so then add spaces to the end to align the value and label
+                if i == value[-1]:
+                    totalstring += _gen_graph_string_part(scaled_value, max_value, graph_length, start_value, icolor, ivalue, True)
+                else:
+                    totalstring += _gen_graph_string_part(scaled_value, max_value, graph_length, start_value, icolor, ivalue, False)
+                accuvalue += ivalue
+            return totalstring
         else:
-            return color + '█' * number_of_square + self._u(' ') * number_of_space + '\033[0m'
+            return _gen_graph_string_part(value, max_value, graph_length, start_value, color, value, True)
 
 
     def _gen_info_string(self, info, start_info, line_length):
         number_of_space = (line_length - start_info - len(info))
         return info + self._u(' ') * number_of_space
 
-    def _gen_value_string(self, value, start_value, start_info):
+    def _gen_value_string(self, value, color, start_value, start_info):
+        icount = 0
+        if isinstance(value, collections.Iterable):
+            for (ivalue, icolor) in value:
+                if icount == 0:
+                    if icolor is None:
+                        totalvalue = str(ivalue)
+                    else:
+                        totalvalue = icolor + str(ivalue) + '\033[0m'
+                else:
+                    if icolor is None:
+                        totalvalue += "," + str(ivalue)
+                    else:
+                        totalvalue += "," + icolor + str(ivalue) + '\033[0m'
+                icount += 1
+        else:
+            if color is None:
+                totalvalue = str(value)
+            else:
+                totalvalue = color + str(value) + '\033[0m'
+
         number_space = start_info -\
                 start_value -\
-                len(str(value)) -\
+                len(str(totalvalue)) -\
                 self.separator_length
 
         return  ' ' * number_space +\
-                str(value) +\
+                str(totalvalue) +\
                 ' ' * self.separator_length
 
     def _sanitize_string(self, string):
@@ -87,13 +138,29 @@ class Pyasciigraph:
                 info = str(string)
         return info
 
+    def _sanitize_value(self, value):
+        if isinstance(value, collections.Iterable):
+            newcollection = []
+            for i in value:
+                if len(i) == 1:
+                    newcollection.append((i[0], None))
+                elif len(i) >= 2:
+                    newcollection.append((i[0], i[1]))
+            newcollection.sort(reverse=False, key=lambda tup: tup[0])
+            return newcollection
+        else:
+            return value
+
     def _sanitize_data(self, data):
         ret = []
         for item in data:
             if (len(item) == 2):
-                ret.append((self._sanitize_string(item[0]), item[1], None))
+                if isinstance(item[1], collections.Iterable):
+                    ret.append((self._sanitize_string(item[0]), self._sanitize_value(item[1]), None))
+                else:
+                    ret.append((self._sanitize_string(item[0]), self._sanitize_value(item[1]), None))
             if (len(item) == 3):
-                ret.append((self._sanitize_string(item[0]), item[1], item[2]))
+                ret.append((self._sanitize_string(item[0]), self._sanitize_value(item[1]), item[2]))
         return ret
 
     def graph(self, label, data, sort=0, with_value=True):
@@ -174,6 +241,7 @@ class Pyasciigraph:
 
             value_string = self._gen_value_string(
                     value,
+                    color,
                     start_value,
                     start_info
                     )
