@@ -35,7 +35,7 @@ class Pyasciigraph:
         all_max['info_max_length'] = 0
         all_max['max_value'] = 0
 
-        for (info, value) in data:
+        for (info, value, color) in data:
             if value > all_max['max_value']:
                 all_max['max_value'] = value
 
@@ -46,10 +46,14 @@ class Pyasciigraph:
                 all_max['value_max_length'] = len(str(value))
         return all_max
 
-    def _gen_graph_string(self, value, max_value, graph_length, start_value):
+    def _gen_graph_string(self, value, max_value, graph_length, start_value, color):
         number_of_square = int(value * graph_length / max_value)
         number_of_space = int(start_value - number_of_square)
-        return '█' * number_of_square + self._u(' ') * number_of_space
+	if color is None:
+            return '█' * number_of_square + self._u(' ') * number_of_space
+        else:
+            return color + '█' * number_of_square + self._u(' ') * number_of_space + '\033[0m'
+
 
     def _gen_info_string(self, info, start_info, line_length):
         number_of_space = (line_length - start_info - len(info))
@@ -86,7 +90,10 @@ class Pyasciigraph:
     def _sanitize_data(self, data):
         ret = []
         for item in data:
-            ret.append((self._sanitize_string(item[0]), item[1]))
+	    if (len(item) == 2):
+                ret.append((self._sanitize_string(item[0]), item[1], None))
+	    if (len(item) == 3):
+                ret.append((self._sanitize_string(item[0]), item[1], item[2]))
         return ret
 
     def graph(self, label, data, sort=0, with_value=True):
@@ -155,12 +162,14 @@ class Pyasciigraph:
         for item in san_data:
             info = item[0]
             value = item[1]
+	    color = item[2]
 
             graph_string = self._gen_graph_string(
                     value, 
                     all_max['max_value'], 
                     graph_length,
-                    start_value
+                    start_value,
+		    color
                     )
 
             value_string = self._gen_value_string(
