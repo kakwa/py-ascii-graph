@@ -27,7 +27,8 @@ class bcolors:
     Bold_White = "\x1b[37;1m"
 
 test = [ ('testval0', 600), ('testval1', 400, bcolors.Red), ('testval2', [(300, bcolors.Green), (500, bcolors.Blue)]),
-            ('testval3', [(200, bcolors.Yellow), (100,)]), ('testval2', 100, bcolors.Cyan), ('testval3', 50, bcolors.Blue) ]
+            ('testval3', [(200, bcolors.Yellow), (100,)]), ('testval4', 100, bcolors.Cyan), ('testval5', 50, bcolors.Blue),
+            ('testval6', [(100, bcolors.Green), (400, bcolors.Red), (200, bcolors.Yellow), (600, bcolors.Blue)]) ]
 graph = Pyasciigraph(separator_length=4)
 for line in graph.graph('test graph', test):
     print(line)

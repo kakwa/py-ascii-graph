@@ -84,7 +84,7 @@ class Pyasciigraph:
                     totalstring += _gen_graph_string_part(scaled_value, max_value, graph_length, start_value, icolor, ivalue, True)
                 else:
                     totalstring += _gen_graph_string_part(scaled_value, max_value, graph_length, start_value, icolor, ivalue, False)
-                accuvalue += ivalue
+                accuvalue += scaled_value
             return totalstring
         else:
             return _gen_graph_string_part(value, max_value, graph_length, start_value, color, value, True)
