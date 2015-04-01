@@ -23,12 +23,20 @@ class Pyasciigraph:
         self.separator_length = separator_length
         self.min_graph_length = min_graph_length
 
-    def _u(self, x):
+    @staticmethod
+    def _u(x):
         if sys.version < '3':
             import codecs
             return codecs.unicode_escape_decode(x)[0]
         else:
             return x
+
+    @staticmethod
+    def color_string(string, color):
+        if color is None:
+            return string
+        else:
+            return color + string + '\033[0m'
 
     def _get_maximum(self, data):
         all_max = {}
@@ -62,14 +70,11 @@ class Pyasciigraph:
                 number_of_space = int(start_value - (total_value * graph_length / max_value) )
             else:
                 number_of_space = 0
-            if color is None:
-                return '█' * number_of_square + self._u(' ') * number_of_space
-            else:
-                return color + '█' * number_of_square + self._u(' ') * number_of_space + '\033[0m'
+            return Pyasciigraph.color_string('█' * number_of_square + Pyasciigraph._u(' ') * number_of_space, color)
 
         if isinstance(value, collections.Iterable):
             accuvalue = 0
-            totalstring = self._u('')
+            totalstring = Pyasciigraph._u('')
             for i in value:
                 ivalue = i[0]
                 icolor = i[1]
@@ -87,28 +92,19 @@ class Pyasciigraph:
 
     def _gen_info_string(self, info, start_info, line_length):
         number_of_space = (line_length - start_info - len(info))
-        return info + self._u(' ') * number_of_space
+        return info + Pyasciigraph._u(' ') * number_of_space
 
     def _gen_value_string(self, value, color, start_value, start_info):
         icount = 0
         if isinstance(value, collections.Iterable):
             for (ivalue, icolor) in value:
                 if icount == 0:
-                    if icolor is None:
-                        totalvalue = str(ivalue)
-                    else:
-                        totalvalue = icolor + str(ivalue) + '\033[0m'
+                    totalvalue = Pyasciigraph.color_string(str(ivalue), icolor)
                 else:
-                    if icolor is None:
-                        totalvalue += "," + str(ivalue)
-                    else:
-                        totalvalue += "," + icolor + str(ivalue) + '\033[0m'
+                    totalvalue += "," + Pyasciigraph.color_string(str(ivalue), icolor)
                 icount += 1
         else:
-            if color is None:
-                totalvalue = str(value)
-            else:
-                totalvalue = color + str(value) + '\033[0m'
+            totalvalue = Pyasciigraph.color_string(str(value), color)
 
         number_space = start_info -\
                 start_value -\
@@ -121,7 +117,7 @@ class Pyasciigraph:
 
     def _sanitize_string(self, string):
         #get the type of a unicode string
-        unicode_type = type(self._u('t'))
+        unicode_type = type(Pyasciigraph._u('t'))
         input_type = type(string)
         if input_type is str:
             if sys.version < '3':
@@ -212,7 +208,7 @@ class Pyasciigraph:
             real_line_length = min_line_length
 
         result.append(san_label)
-        result.append(self._u('#')* real_line_length)
+        result.append(Pyasciigraph._u('#')* real_line_length)
 
 
         for item in san_data:
