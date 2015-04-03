@@ -74,7 +74,7 @@ class Pyasciigraph:
 
         if isinstance(value, collections.Iterable):
             accuvalue = 0
-            totalstring = Pyasciigraph._u('')
+            totalstring = ""
             for i in value:
                 ivalue = i[0]
                 icolor = i[1]
