@@ -67,23 +67,28 @@ class Pyasciigraph:
         def _gen_graph_string_part(value, max_value, graph_length, start_value, color, total_value, lastgraph):
             number_of_square = int(value * graph_length / max_value)
             if lastgraph:
-                number_of_space = int(start_value - (total_value * graph_length / max_value) )
+                number_of_space = int(start_value - (number_of_square + total_value) )
             else:
                 number_of_space = 0
-            return Pyasciigraph.color_string('█' * number_of_square + Pyasciigraph._u(' ') * number_of_space, color)
+            return (Pyasciigraph.color_string('█' * number_of_square + Pyasciigraph._u(' ') * number_of_space, color), number_of_square)
 
         if isinstance(value, collections.Iterable):
             accuvalue = 0
             totalstring = ""
+            totalsquares = 0
             for i in value:
                 ivalue = i[0]
                 icolor = i[1]
                 scaled_value = ivalue-accuvalue
                 # Check if last item in list, if so then add spaces to the end to align the value and label
                 if i == value[-1]:
-                    totalstring += _gen_graph_string_part(scaled_value, max_value, graph_length, start_value, icolor, ivalue, True)
+                    (partstr, squares) = _gen_graph_string_part(scaled_value, max_value, graph_length, start_value, icolor, totalsquares, True)
+                    totalstring += partstr
+                    totalsquares += squares
                 else:
-                    totalstring += _gen_graph_string_part(scaled_value, max_value, graph_length, start_value, icolor, ivalue, False)
+                    (partstr, squares) = _gen_graph_string_part(scaled_value, max_value, graph_length, start_value, icolor, totalsquares, False)
+                    totalstring += partstr
+                    totalsquares += squares
                 accuvalue += scaled_value
             return totalstring
         else:
