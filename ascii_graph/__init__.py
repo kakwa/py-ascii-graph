@@ -105,9 +105,8 @@ class Pyasciigraph:
                 accuvalue += scaled_value
             return totalstring
         else:
-            #(partstr, squares) = _gen_graph_string_part(value, max_value, graph_length, start_value, color, value, True)
-            #return partstr
-            return _gen_graph_string_part(value, max_value, graph_length, start_value, color, value, True)
+            (partstr, squares) = _gen_graph_string_part(value, max_value, graph_length, start_value, color, value, True)
+            return partstr
 
 
     def _gen_info_string(self, info, start_info, line_length):
