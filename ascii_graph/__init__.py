@@ -22,6 +22,7 @@ class Pyasciigraph:
         self.line_length = line_length
         self.separator_length = separator_length
         self.min_graph_length = min_graph_length
+        self.max_value_length = 0
 
     @staticmethod
     def _u(x):
@@ -56,10 +57,19 @@ class Pyasciigraph:
 
         for (info, value, color) in data:
             if isinstance(value, collections.Iterable):
+                icount = 0
                 for (ivalue, icolor) in value:
                     _get_maximum_value(ivalue)
+                    if icount == 0:
+                        totalvalue = Pyasciigraph.color_string(str(ivalue), icolor)
+                    else:
+                        totalvalue += "," + Pyasciigraph.color_string(str(ivalue), icolor)
+                    icount += 1
             else:
                 _get_maximum_value(value)
+                totalvalue = Pyasciigraph.color_string(str(value), color)
+            if len(str(totalvalue)) > self.max_value_length:
+                self.max_value_length = len(str(totalvalue))
 
         return all_max
 
@@ -118,7 +128,7 @@ class Pyasciigraph:
 
         return  ' ' * number_space +\
                 str(totalvalue) +\
-                ' ' * self.separator_length
+                ' ' * ((self.max_value_length - len(str(totalvalue))) + self.separator_length)
 
     def _sanitize_string(self, string):
         #get the type of a unicode string
