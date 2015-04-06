@@ -87,14 +87,14 @@ class Pyasciigraph:
             accuvalue = 0
             totalstring = ""
             totalsquares = 0
-            newvalue = copy.deepcopy(value)
-            newvalue.sort(reverse=False, key=lambda tup: tup[0])
-            for i in newvalue:
+            sortedvalue = copy.deepcopy(value)
+            sortedvalue.sort(reverse=False, key=lambda tup: tup[0])
+            for i in sortedvalue:
                 ivalue = i[0]
                 icolor = i[1]
                 scaled_value = ivalue-accuvalue
                 # Check if last item in list, if so then add spaces to the end to align the value and label
-                if i == newvalue[-1]:
+                if i == sortedvalue[-1]:
                     (partstr, squares) = _gen_graph_string_part(scaled_value, max_value, graph_length, start_value, icolor, totalsquares, True)
                     totalstring += partstr
                     totalsquares += squares
