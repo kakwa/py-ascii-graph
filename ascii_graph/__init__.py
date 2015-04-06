@@ -4,6 +4,7 @@
 from __future__ import unicode_literals
 import sys
 import collections
+import copy
 
 class Pyasciigraph:
 
@@ -86,12 +87,14 @@ class Pyasciigraph:
             accuvalue = 0
             totalstring = ""
             totalsquares = 0
-            for i in value:
+            newvalue = copy.deepcopy(value)
+            newvalue.sort(reverse=False, key=lambda tup: tup[0])
+            for i in newvalue:
                 ivalue = i[0]
                 icolor = i[1]
                 scaled_value = ivalue-accuvalue
                 # Check if last item in list, if so then add spaces to the end to align the value and label
-                if i == value[-1]:
+                if i == newvalue[-1]:
                     (partstr, squares) = _gen_graph_string_part(scaled_value, max_value, graph_length, start_value, icolor, totalsquares, True)
                     totalstring += partstr
                     totalsquares += squares
@@ -102,6 +105,8 @@ class Pyasciigraph:
                 accuvalue += scaled_value
             return totalstring
         else:
+            #(partstr, squares) = _gen_graph_string_part(value, max_value, graph_length, start_value, color, value, True)
+            #return partstr
             return _gen_graph_string_part(value, max_value, graph_length, start_value, color, value, True)
 
 
@@ -156,7 +161,6 @@ class Pyasciigraph:
                     newcollection.append((i[0], None))
                 elif len(i) >= 2:
                     newcollection.append((i[0], i[1]))
-            newcollection.sort(reverse=False, key=lambda tup: tup[0])
             return newcollection
         else:
             return value
