@@ -62,13 +62,13 @@ class Pyasciigraph:
                 for (ivalue, icolor) in value:
                     _get_maximum_value(ivalue)
                     if icount == 0:
-                        totalvalue = Pyasciigraph.color_string(str(ivalue), icolor)
+                        totalvalue = str(ivalue)#Pyasciigraph.color_string(str(ivalue), icolor)
                     else:
-                        totalvalue += "," + Pyasciigraph.color_string(str(ivalue), icolor)
+                        totalvalue += "," + str(ivalue) #Pyasciigraph.color_string(str(ivalue), icolor)
                     icount += 1
             else:
                 _get_maximum_value(value)
-                totalvalue = Pyasciigraph.color_string(str(value), color)
+                totalvalue = str(value) #Pyasciigraph.color_string(str(value), color)
             if len(str(totalvalue)) > self.max_value_length:
                 self.max_value_length = len(str(totalvalue))
 
@@ -118,11 +118,15 @@ class Pyasciigraph:
         if isinstance(value, collections.Iterable):
             for (ivalue, icolor) in value:
                 if icount == 0:
+                    # total_len is needed because the color characters count with the len() function even when they are not printed to the screen.
+                    total_len = len(str(ivalue))
                     totalvalue = Pyasciigraph.color_string(str(ivalue), icolor)
                 else:
+                    total_len += len(str(ivalue)) + 1 # The +1 accounts for the comma
                     totalvalue += "," + Pyasciigraph.color_string(str(ivalue), icolor)
                 icount += 1
         else:
+            total_len = len(str(value))
             totalvalue = Pyasciigraph.color_string(str(value), color)
 
         number_space = start_info -\
@@ -132,7 +136,7 @@ class Pyasciigraph:
 
         return  ' ' * number_space +\
                 str(totalvalue) +\
-                ' ' * ((self.max_value_length - len(str(totalvalue))) + self.separator_length)
+                ' ' * ((self.max_value_length - total_len) + self.separator_length)
 
     def _sanitize_string(self, string):
         #get the type of a unicode string
