@@ -138,7 +138,7 @@ class Pyasciigraph:
         if number_space < 0:
             number_space = 0
 
-        return  '_' * number_space +\
+        return  ' ' * number_space +\
                 str(totalvalue) +\
                 ' ' * ((self.max_value_length - totalvalue_len) + self.separator_length - number_space)
 
