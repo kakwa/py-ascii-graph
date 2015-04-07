@@ -131,7 +131,7 @@ class Pyasciigraph:
 
         number_space = start_info -\
                 start_value -\
-                len(str(totalvalue)) -\
+                totalvalue_len -\
                 self.separator_length
 
         return  ' ' * number_space +\
