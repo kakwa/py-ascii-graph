@@ -80,14 +80,14 @@ if __name__ == '__main__':
     mingraph = int(mingraph)
     sort = options.sort or 0
     if sort == 'dec':
-        sort = 2
+        data = sorted(data, key=lambda value: value[1], reverse=True)
     if sort == 'inc':
-        sort = 1
+        data = sorted(data, key=lambda value: value[1], reverse=False)
 
     graph = Pyasciigraph(line_length=width, min_graph_length=mingraph)
 
     counter = 0 
-    for line in graph.graph(label, data, sort):
+    for line in graph.graph(label, data):
         #skip the first two lines if no label
         if not options.label and counter < 2:
             counter = counter + 1
