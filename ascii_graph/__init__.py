@@ -61,7 +61,7 @@ class Pyasciigraph:
                 maxvalue = value
 
             if maxvalue > all_max['max_value']:
-                all_max['max_value'] = value
+                all_max['max_value'] = maxvalue
 
             if len(info) > all_max['info_max_length']:
                 all_max['info_max_length'] = len(info)
