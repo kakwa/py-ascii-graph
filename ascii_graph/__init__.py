@@ -134,9 +134,13 @@ class Pyasciigraph:
                 totalvalue_len -\
                 self.separator_length
 
-        return  ' ' * number_space +\
+        # This must not be negitive, this happens when the string length is larger than the separator length
+        if number_space < 0:
+            number_space = 0
+
+        return  '_' * number_space +\
                 str(totalvalue) +\
-                ' ' * ((self.max_value_length - totalvalue_len) + self.separator_length)
+                ' ' * ((self.max_value_length - totalvalue_len) + self.separator_length - number_space)
 
     def _sanitize_string(self, string):
         #get the type of a unicode string
