@@ -77,9 +77,13 @@ class TestLib(object):
             assert res == expected
 
         def test_mulivalue_color_graphs(self):
-            test = [ ('testval0', 600), ('testval1', 400, Red), ('testval2', [(300, Gre), (500, Blu)]),
-            ('testval3', [(200, Yel), (100,)]), ('testval4', 100, Cya), ('testval5', 50, Blu),
-            ('testval6', [(100, Gre), (150, Red), (200, Yel), (600, Blu)]) ]
+            test = [('testval0', 600),
+                       ('testval1', 400, Red),
+                       ('testval2', [(300, Gre),(500, Blu)]),
+                       ('testval3', [(200, Yel),(100,)]),
+                       ('testval4', 100, Cya),
+                       ('testval5', 50, Blu),
+                       ('testval6', [(100, Gre), (150, Red), (200, Yel), (600, Blu)]) ]
             graph = Pyasciigraph(separator_length=4)
             res = graph.graph('test graph', test)
             print res
