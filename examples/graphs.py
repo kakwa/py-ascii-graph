@@ -11,9 +11,11 @@ for line in graph.graph('test 2', test):
     print(line)
 
 #example of sort
-for line in graph.graph('test 2', test, sort=1):
+test.sort(reverse=False, key=lambda tup: tup[1] )
+for line in graph.graph('test 2', test):
     print(line)
 
 #example of reverse sort
-for line in graph.graph('test 2', test, sort=2):
+test.sort(reverse=True, key=lambda tup: tup[1] )
+for line in graph.graph('test 2', test):
     print(line)
