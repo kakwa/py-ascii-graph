@@ -23,7 +23,6 @@ class Pyasciigraph:
         self.line_length = line_length
         self.separator_length = separator_length
         self.min_graph_length = min_graph_length
-        self.max_value_length = 0
 
     @staticmethod
     def _u(x):
@@ -46,31 +45,29 @@ class Pyasciigraph:
         all_max['info_max_length'] = 0
         all_max['max_value'] = 0
 
-        def _get_maximum_value(value):
-            if value > all_max['max_value']:
+        for (info, value, color) in data:
+            totalvalue_len = 0
+            if isinstance(value, collections.Iterable):
+                icount = 0
+                maxvalue = 0
+                for (ivalue, icolor) in value:
+                    if ivalue > maxvalue:
+                        maxvalue = ivalue
+                        totalvalue_len += len("," + str(ivalue))
+                # remove one comma
+                totalvalue_len = totalvalue_len - 1
+            else:
+                totalvalue_len = len(str(value))
+                maxvalue = value
+
+            if maxvalue > all_max['max_value']:
                 all_max['max_value'] = value
 
             if len(info) > all_max['info_max_length']:
                 all_max['info_max_length'] = len(info)
 
-            if len(str(value)) > all_max['value_max_length']:
-                all_max['value_max_length'] = len(str(value))
-
-        for (info, value, color) in data:
-            if isinstance(value, collections.Iterable):
-                icount = 0
-                for (ivalue, icolor) in value:
-                    _get_maximum_value(ivalue)
-                    if icount == 0:
-                        totalvalue_len = len(str(ivalue))
-                    else:
-                        totalvalue_len += len("," + str(ivalue))
-                    icount += 1
-            else:
-                _get_maximum_value(value)
-                totalvalue_len = len(str(value))
-            if totalvalue_len > self.max_value_length:
-                self.max_value_length = totalvalue_len
+            if totalvalue_len > all_max['value_max_length']:
+                all_max['value_max_length'] = totalvalue_len
 
         return all_max
 
@@ -140,7 +137,7 @@ class Pyasciigraph:
 
         return  ' ' * number_space +\
                 str(totalvalue) +\
-                ' ' * ((self.max_value_length - totalvalue_len) + self.separator_length - number_space)
+                ' ' * ((start_info - start_value - totalvalue_len) - number_space)
 
     def _sanitize_string(self, string):
         #get the type of a unicode string
@@ -229,7 +226,8 @@ class Pyasciigraph:
                     all_max['value_max_length'] +\
                     self.separator_length
             #calcul of where to end graph
-            graph_length = self.min_graph_length
+            graph_length = start_value -\
+                    self.separator_length
             #calcul of the real line length
             real_line_length = min_line_length
 
