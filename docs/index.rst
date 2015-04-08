@@ -5,6 +5,7 @@ Contents
    :maxdepth: 4
 
    ascii_graph
+   examples
 
 .. include:: ../README.rst
 
