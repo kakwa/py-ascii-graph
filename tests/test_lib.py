@@ -61,6 +61,27 @@ class TestLib(object):
 
             assert res == expected
 
+        def test_alternate_graphsymbol(self):
+            test = [('long_labe☭', 423), ('sl', 1234), ('line3', 531), ('line4', 200), ('line5', 834)]
+            graph = Pyasciigraph(graphsymbol='*')
+            res = graph.graph('☭test print', test)
+            expected = [
+'☭test print',
+'###############################################################################',
+'********************                                            423  long_labe☭',
+'*************************************************************  1234  sl        ',
+'**************************                                      531  line3     ',
+'*********                                                       200  line4     ',
+'*****************************************                       834  line5     ',
+]
+            assert res == expected
+
+        def test_graphsymbol_bad_length(self):
+            test = [('long_labe☭', 423), ('sl', 1234), ('line3', 531), ('line4', 200), ('line5', 834)]
+            with pytest.raises(Exception) as e:
+                graph = Pyasciigraph(graphsymbol='*0')
+
+
         def test_color_graphs(self):
             test = [('testval0', 142),
                        ('testval1', 204, BPur),

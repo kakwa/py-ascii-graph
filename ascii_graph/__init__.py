@@ -10,25 +10,42 @@ class Pyasciigraph:
 
     def __init__(self, line_length=79,
             min_graph_length=50,
-            separator_length=2
+            separator_length=2,
+            graphsymbol=None,
             ):
         """Constructor of Pyasciigraph
 
-        :param int line_length: the max number of char on a line
-                if any line cannot be shorter,
-                it will go over this limit
-        :param int min_graph_length: the min number of char used by the graph
-        :param int separator_length: the length of field separator
+        :param line_length: the max number of char on a line
+          if any line cannot be shorter,
+          it will go over this limit.
+          default: 79
+        :type line_length: int
+        :param min_graph_length: the min number of char 
+          used by the graph itself.
+          default: 50
+        :type min_graph_length: int
+        :param separator_length: the length of field separator.
+          default: 2 
+        :type separator_length: int
+        :param graphsymbol: the symbol used for the graph bar.
+          default: '█'
+        :type graphsymbol: str or unicode (length one)
         """
         self.line_length = line_length
         self.separator_length = separator_length
         self.min_graph_length = min_graph_length
+        if graphsymbol is None:
+            self.graphsymbol = self._u('█')
+        else:
+            self.graphsymbol = graphsymbol
+        if len(self.graphsymbol) != 1:
+            raise Exception('Bad graphsymbol length, must be 1', \
+                    len(self.graphsymbol))
 
     @staticmethod
     def _u(x):
         if sys.version < '3':
-            import codecs
-            return codecs.unicode_escape_decode(x)[0]
+            return x + ''.decode("utf-8")
         else:
             return x
 
@@ -78,7 +95,7 @@ class Pyasciigraph:
                 number_of_space = int(start_value - (number_of_square + total_value) )
             else:
                 number_of_space = 0
-            return (Pyasciigraph.color_string('█' * number_of_square + Pyasciigraph._u(' ') * number_of_space, color), number_of_square)
+            return (Pyasciigraph.color_string(self.graphsymbol * number_of_square + Pyasciigraph._u(' ') * number_of_space, color), number_of_square)
 
         if isinstance(value, collections.Iterable):
             accuvalue = 0
