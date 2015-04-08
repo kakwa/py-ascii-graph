@@ -61,6 +61,22 @@ class TestLib(object):
 
             assert res == expected
 
+        def test_no_label(self):
+            test = [(1, 423), (2, 1234), (3, 531), ('line4', 200), ('line5', 834)]
+            graph = Pyasciigraph()
+            res = graph.graph(data=test)
+            expected = [
+'██████████████████████                                               423  1    ',
+'██████████████████████████████████████████████████████████████████  1234  2    ',
+'████████████████████████████                                         531  3    ',
+'██████████                                                           200  line4',
+'████████████████████████████████████████████                         834  line5',
+]
+
+            assert res == expected
+
+
+
         def test_alternate_graphsymbol(self):
             test = [('long_labe☭', 423), ('sl', 1234), ('line3', 531), ('line4', 200), ('line5', 834)]
             graph = Pyasciigraph(graphsymbol='*')

@@ -198,25 +198,27 @@ class Pyasciigraph:
                 ret.append((self._sanitize_string(item[0]), self._sanitize_value(item[1]), item[2]))
         return ret
 
-    def graph(self, label, data, with_value=True):
+    def graph(self, label=None, data=[]):
         """function generating the graph
 
         :param string label: the label of the graph
         :param iterable data: the data (list of tuple (info, value))
                 info must be "castable" to a unicode string
                 value must be an int or a float
-        :param boolean with_value: flag printing value
-                True: print the numeric value (default)
-                False: don't print the numeric value
-        :rtype: a list of strings (each lines)
+        :rtype: a list of strings (each lines of the graph)
 
         """
         result = []
         san_data = self._sanitize_data(data)
-        san_label = self._sanitize_string(label)
         all_max = self._get_maximum(san_data)
 
-        real_line_length = max(self.line_length, len(label))
+        if not label is None:
+            san_label = self._sanitize_string(label)
+            label_len = len(san_label)
+        else:
+            label_len = 0
+
+        real_line_length = max(self.line_length, label_len)
 
         min_line_length = self.min_graph_length +\
                 2 * self.separator_length +\
@@ -248,9 +250,9 @@ class Pyasciigraph:
             #calcul of the real line length
             real_line_length = min_line_length
 
-        result.append(san_label)
-        result.append(Pyasciigraph._u('#')* real_line_length)
-
+        if not label is None:
+            result.append(san_label)
+            result.append(Pyasciigraph._u('#')* real_line_length)
 
         for item in san_data:
             info = item[0]

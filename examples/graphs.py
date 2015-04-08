@@ -19,3 +19,8 @@ for line in graph.graph('test 2', test):
 test.sort(reverse=True, key=lambda tup: tup[1] )
 for line in graph.graph('test 2', test):
     print(line)
+
+print('')
+#No label
+for line in graph.graph(data=test):
+    print(line)
