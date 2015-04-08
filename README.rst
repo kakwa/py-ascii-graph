@@ -1,10 +1,6 @@
 py-ascii-graph
 ==============
 
-.. image:: https://badges.gitter.im/Join%20Chat.svg
-   :alt: Join the chat at https://gitter.im/kakwa/py-ascii-graph
-   :target: https://gitter.im/kakwa/py-ascii-graph?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge
-
 A simple python lib to print data as ascii histograms
 
 .. image:: https://secure.travis-ci.org/kakwa/py-ascii-graph.png?branch=master
@@ -14,6 +10,19 @@ A simple python lib to print data as ascii histograms
 .. image:: https://pypip.in/d/ascii_graph/badge.png
     :target: https://pypi.python.org/pypi/ascii_graph
     :alt: Number of PyPI downloads
+
+.. image:: https://badges.gitter.im/Join%20Chat.svg
+   :alt: Join the chat at https://gitter.im/kakwa/py-ascii-graph
+   :target: https://gitter.im/kakwa/py-ascii-graph?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge
+
+----
+
+:PyPI: `Package <https://pypi.python.org/pypi/ascii_graph>`_
+:Doc: `Documentation <http://py-ascii-graph.readthedocs.org>`_
+:License: MIT
+:Author: Pierre-Francois Carpentier - copyright 2014
+
+----
 
 License
 =======
