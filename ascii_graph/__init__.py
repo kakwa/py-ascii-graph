@@ -12,6 +12,7 @@ class Pyasciigraph:
             min_graph_length=50,
             separator_length=2,
             graphsymbol=None,
+            multivalue=True,
             ):
         """Constructor of Pyasciigraph
 
@@ -30,7 +31,12 @@ class Pyasciigraph:
         :param graphsymbol: the symbol used for the graph bar.
           default: '█'
         :type graphsymbol: str or unicode (length one)
+        :param multivalue: displays all the values if multivalued when True.
+          displays only the max value if False
+          default: True
+        :type multivalue: boolean
         """
+
         self.line_length = line_length
         self.separator_length = separator_length
         self.min_graph_length = min_graph_length
@@ -41,6 +47,7 @@ class Pyasciigraph:
         if len(self.graphsymbol) != 1:
             raise Exception('Bad graphsymbol length, must be 1', \
                     len(self.graphsymbol))
+        self.multivalue = multivalue
 
     @staticmethod
     def _u(x):
@@ -71,8 +78,12 @@ class Pyasciigraph:
                     if ivalue > maxvalue:
                         maxvalue = ivalue
                         totalvalue_len += len("," + str(ivalue))
-                # remove one comma
-                totalvalue_len = totalvalue_len - 1
+
+                if self.multivalue:
+                    # remove one comma
+                    totalvalue_len = totalvalue_len - 1
+                else:
+                    totalvalue_len = len(str(maxvalue))
             else:
                 totalvalue_len = len(str(value))
                 maxvalue = value
@@ -129,7 +140,7 @@ class Pyasciigraph:
 
     def _gen_value_string(self, value, color, start_value, start_info):
         icount = 0
-        if isinstance(value, collections.Iterable):
+        if isinstance(value, collections.Iterable) and self.multivalue:
             for (ivalue, icolor) in value:
                 if icount == 0:
                     # total_len is needed because the color characters count with the len() function even when they are not printed to the screen.
@@ -139,6 +150,16 @@ class Pyasciigraph:
                     totalvalue_len += len("," + str(ivalue))
                     totalvalue += "," + Pyasciigraph.color_string(str(ivalue), icolor)
                 icount += 1
+        elif isinstance(value, collections.Iterable):
+            max_value=0
+            color=None
+            for (ivalue, icolor) in value:
+                if ivalue > max_value:
+                    max_value = ivalue
+                    color = icolor
+            totalvalue_len = len(str(max_value))
+            totalvalue = Pyasciigraph.color_string(str(max_value), color)
+
         else:
             totalvalue_len = len(str(value))
             totalvalue = Pyasciigraph.color_string(str(value), color)
