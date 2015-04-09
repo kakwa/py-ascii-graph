@@ -192,7 +192,4 @@ or
 
     $ easy_install ascii_graph
 
-.. image:: https://d2weczhvl823v0.cloudfront.net/kakwa/py-ascii-graph/trend.png
-   :alt: Bitdeli badge
-   :target: https://bitdeli.com/free
 
