@@ -1,3 +1,8 @@
+* 1.0.1
+    * Light cleaning in source code
+    * Test for python 3.4
+    * Better documentation
+
 * 1.0.0
     * Remove sort capabilities
     * Add coloring capabilities (mono and multi color)
