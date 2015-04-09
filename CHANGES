@@ -2,7 +2,7 @@
     * Remove sort capabilities
     * Add coloring capabilities (mono and multi color)
       (big thanks to David Whiteside)
-    * Add some function and constant to help color data
+    * Add some functions and constants to help color data
     * Adding possibility to change the symbol used for the graph bar
     * Better unit tests
     * Documentation improvement

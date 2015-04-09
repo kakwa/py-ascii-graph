@@ -42,20 +42,25 @@ py-asciigraph although comes with a command line utility.
 Examples
 ========
 
-code:
+Library
+-------
+
+Simple code:
 
 .. sourcecode:: python
 
     from ascii_graph import Pyasciigraph
 
-    test = [('long_label', 423), ('sl', 1234), ('line3', 531), ('line4', 200), ('line5', 834)]
+    test = [('long_label', 423), ('sl', 1234), ('line3', 531), 
+        ('line4', 200), ('line5', 834)]
+
     graph = Pyasciigraph()
     for line in  graph.graph('test print', test):
         print(line)
 
-result:
+Result:
 
-.. sourcecode:: none
+.. sourcecode:: bash
 
     test print
     ###############################################################################
@@ -64,6 +69,62 @@ result:
     ██████████████████████████                                      531  line3     
     █████████                                                       200  line4     
     █████████████████████████████████████████                       834  line5
+
+More Complete examples:
+
+.. sourcecode:: python
+
+    from ascii_graph import Pyasciigraph
+    from ascii_graph.colors import *
+    from ascii_graph.colordata import vcolor
+    from ascii_graph.colordata import hcolor
+    
+    test = [('long_label', 423), ('sl', 1234), ('line3', 531),
+        ('line4', 200), ('line5', 834)]
+    
+    # One color per line
+    print('Color example:')
+    pattern = [Gre, Yel, Red]
+    data = vcolor(test, pattern)
+    
+    graph = Pyasciigraph()
+    for line in graph.graph('vcolor test', data):
+        print(line)
+    
+    print('Data:')
+    print(data)
+    
+    
+    print('\nMultiColor example:')
+    # Multicolor on one line
+    thresholds = {
+      51:  Gre,
+      100: Blu,
+      350: Yel,
+      500: Red,
+    }
+    
+    data = hcolor(test, thresholds)
+    
+    graph = Pyasciigraph(
+        line_length=120,
+        min_graph_length=50,
+        separator_length=4,
+        multivalue=False,
+        graphsymbol='*'
+        )
+    
+    for line in graph.graph(
+                        label=None,
+                        data=data
+                        ):
+        print(line)
+    print('Data:')
+    
+    print(data)
+
+Command Line Utility
+--------------------
 
 command line:
 
