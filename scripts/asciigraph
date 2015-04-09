@@ -21,8 +21,8 @@ def split_once_rightmost(s):
      return seq
 
 if __name__ == '__main__':
-    usage = "usage: %prog [-l <label>] [-f file] [-s inc|dec] \\"\
-            "   [-c] [-t <first color threshold> [-T <second color threshold>]"\
+    usage = "usage: %prog [-l <label>] [-f file] [-s inc|dec] \\\n"\
+            "   [-c] [-t <first color threshold> [-T <second color threshold>] \\\n"\
             "   [-w <number of char>] [-m <min len of char>]\n\n"\
             "examples:\n"\
             "   printf 'label1:10\\nlabel2:100\\n' | %prog -l 'my graph'\n"\
@@ -51,10 +51,10 @@ if __name__ == '__main__':
             metavar="LEN")
     parser.add_option("-t", "--threshold-1", dest="t1",
             help="first color threshold, only make sense if --color is passed", 
-            metavar="LEN")
+            metavar="TC1")
     parser.add_option("-T", "--threshold-2", dest="t2",
             help="second color threshold, only make sense if --color is passed", 
-            metavar="LEN")
+            metavar="TC2")
     parser.add_option("-c", "--color",
             action="store_true", dest="color", default=False,
             help="Color the graph")
