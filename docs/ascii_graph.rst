@@ -1,8 +1,5 @@
-ascii_graph Package
+Package ascii_graph
 ===================
-
-:mod:`ascii_graph` Package
---------------------------
 
 .. automodule:: ascii_graph.__init__
     :members:

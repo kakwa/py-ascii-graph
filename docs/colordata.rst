@@ -1,8 +1,5 @@
-ascii_graph.colordata Package
-==============================
-
-:mod:`ascii_graph.colordata` Package
--------------------------------------
+Package ascii_graph.colordata
+=============================
 
 .. automodule:: ascii_graph.colordata
     :members:
