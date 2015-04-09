@@ -57,7 +57,7 @@ class Pyasciigraph:
             return x
 
     @staticmethod
-    def color_string(string, color):
+    def _color_string(string, color):
         if color is None:
             return string
         else:
@@ -106,7 +106,7 @@ class Pyasciigraph:
                 number_of_space = int(start_value - (number_of_square + total_value) )
             else:
                 number_of_space = 0
-            return (Pyasciigraph.color_string(self.graphsymbol * number_of_square + Pyasciigraph._u(' ') * number_of_space, color), number_of_square)
+            return (Pyasciigraph._color_string(self.graphsymbol * number_of_square + Pyasciigraph._u(' ') * number_of_space, color), number_of_square)
 
         if isinstance(value, collections.Iterable):
             accuvalue = 0
@@ -145,10 +145,10 @@ class Pyasciigraph:
                 if icount == 0:
                     # total_len is needed because the color characters count with the len() function even when they are not printed to the screen.
                     totalvalue_len = len(str(ivalue))
-                    totalvalue = Pyasciigraph.color_string(str(ivalue), icolor)
+                    totalvalue = Pyasciigraph._color_string(str(ivalue), icolor)
                 else:
                     totalvalue_len += len("," + str(ivalue))
-                    totalvalue += "," + Pyasciigraph.color_string(str(ivalue), icolor)
+                    totalvalue += "," + Pyasciigraph._color_string(str(ivalue), icolor)
                 icount += 1
         elif isinstance(value, collections.Iterable):
             max_value=0
@@ -158,11 +158,11 @@ class Pyasciigraph:
                     max_value = ivalue
                     color = icolor
             totalvalue_len = len(str(max_value))
-            totalvalue = Pyasciigraph.color_string(str(max_value), color)
+            totalvalue = Pyasciigraph._color_string(str(max_value), color)
 
         else:
             totalvalue_len = len(str(value))
-            totalvalue = Pyasciigraph.color_string(str(value), color)
+            totalvalue = Pyasciigraph._color_string(str(value), color)
 
         number_space = start_info -\
                 start_value -\
