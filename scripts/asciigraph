@@ -7,6 +7,8 @@ import sys
 import codecs
 from optparse import OptionParser
 import re
+from ascii_graph.colors import *
+from ascii_graph.colordata import hcolor
 
 def input_analyzer(line, data):
     split = split_once_rightmost(line)
@@ -19,12 +21,16 @@ def split_once_rightmost(s):
      return seq
 
 if __name__ == '__main__':
-    usage = "usage: %prog [-l <label>] [-f file] [-s inc|dec] [-w <number of char>] [-m <min len of char>]\n\n"\
+    usage = "usage: %prog [-l <label>] [-f file] [-s inc|dec] \\"\
+            "   [-c] [-t <first color threshold> [-T <second color threshold>]"\
+            "   [-w <number of char>] [-m <min len of char>]\n\n"\
             "examples:\n"\
             "   printf 'label1:10\\nlabel2:100\\n' | %prog -l 'my graph'\n"\
             "   printf 'l1:10\\nl2:100\\n' > ./mf; %prog -l 'my graph' -f ./mf\n"\
             "   %prog -l 'my graph' -f mf -s inc\n"\
-            "   %prog -l 'my graph' -f mf -s dec -w 60 -m 10\n"
+            "   %prog -l 'my graph' -f mf -s dec -w 60 -m 10\n"\
+            "   %prog -l 'my graph' -f mf -c\n"\
+            "   %prog -l 'my graph' -f mf -c -t 5 -T 50\n"
 
     parser = OptionParser(usage=usage)
     parser.add_option("-f", "--file", dest="filename", 
@@ -43,8 +49,15 @@ if __name__ == '__main__':
     parser.add_option("-m", "--min_graph", dest="mingraph", 
             help="minimum length of the graph bar", 
             metavar="LEN")
-
-
+    parser.add_option("-t", "--threshold-1", dest="t1",
+            help="first color threshold, only make sense if --color is passed", 
+            metavar="LEN")
+    parser.add_option("-T", "--threshold-2", dest="t2",
+            help="second color threshold, only make sense if --color is passed", 
+            metavar="LEN")
+    parser.add_option("-c", "--color",
+            action="store_true", dest="color", default=False,
+            help="Color the graph")
 
     (options, args) = parser.parse_args()
 
@@ -84,7 +97,19 @@ if __name__ == '__main__':
     if sort == 'inc':
         data = sorted(data, key=lambda value: value[1], reverse=False)
 
-    graph = Pyasciigraph(line_length=width, min_graph_length=mingraph)
+    graph = Pyasciigraph(line_length=width, min_graph_length=mingraph, multivalue=False)
+
+    if options.color:
+       maxval = int(max(data,key=lambda item:item[0])[1])
+       t1 = float(options.t1) if not options.t1 is None else maxval / 3
+       t2 = float(options.t2) if not options.t2 is None else maxval * 2 / 3
+       thresholds = {
+           t1:     Gre,
+           t2:     Yel,
+           maxval + 1: Red,
+       }
+       data = hcolor(data, thresholds)
+
 
     counter = 0 
     for line in graph.graph(label, data):

@@ -9,6 +9,8 @@ old_width=`tput cols`
 
 #get number of cores (empiricaly I always try to have load < number of cores)
 max=`grep -c processor /proc/cpuinfo`
+t1=`awk "BEGIN {print $max * 3 / 4}"`
+t2=`awk "BEGIN {print $max * 4 / 4}"`
 
 while true
 do
@@ -31,7 +33,7 @@ do
 load threshold:$max\n\
 load last minute:$load_1\n\
 load last 5 minutes:$load_5\n\
-load last 15 minutes:$load_15\n" | asciigraph -w $width -l 'loadtop'
+load last 15 minutes:$load_15\n" | asciigraph -w $width -l 'loadtop' -c -t $t1 -T $t2
 
     #refresh every 1 second
     tput cup 0 0
