@@ -21,4 +21,27 @@ graph = Pyasciigraph(separator_length=4, multivalue=False)
 for line in graph.graph('test graph mono value', test):
     print(line)
 
+# Coloring data according to thresholds
+from ascii_graph.colordata import hcolor
+
+test = [('testval0', 600),
+        ('testval1', 500),
+        ('testval2', 400),
+        ('testval3', 400),
+        ('testval4', 300),
+        ('testval5', 200),
+        ('testval6', 100),
+        ('testval7', 50 )]
+
+thresholds = {
+  51:  Gre,
+  100: Blu,
+  350: Yel,
+  500: Red,
+}
+
+data = hcolor(test, thresholds)
+for line in graph.graph('hcolor test', data):
+    print(line)
+
 exit(0)
