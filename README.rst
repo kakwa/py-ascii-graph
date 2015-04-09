@@ -15,6 +15,13 @@ A simple python lib to print data as ascii histograms
    :alt: Join the chat at https://gitter.im/kakwa/py-ascii-graph
    :target: https://gitter.im/kakwa/py-ascii-graph?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge
 
+.. image:: https://coveralls.io/repos/kakwa/py-ascii-graph/badge.svg?branch=master 
+    :target: https://coveralls.io/r/kakwa/py-ascii-graph?branch=master
+
+.. image:: https://pypip.in/py_versions/ascii_graph/badge.svg
+    :target: https://pypi.python.org/pypi/ascii_graph
+    :alt: Supported Python Versions
+
 ----
 
 :PyPI: `Package <https://pypi.python.org/pypi/ascii_graph>`_
@@ -185,7 +192,4 @@ or
 
     $ easy_install ascii_graph
 
-.. image:: https://d2weczhvl823v0.cloudfront.net/kakwa/py-ascii-graph/trend.png
-   :alt: Bitdeli badge
-   :target: https://bitdeli.com/free
 
