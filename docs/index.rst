@@ -6,6 +6,7 @@ Contents
 
    ascii_graph
    colordata
+   colors
    examples
 
 .. include:: ../README.rst
