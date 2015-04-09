@@ -5,6 +5,10 @@ python:
   - "3.3"
 # command to install dependencies
 install: 
+  - pip install coveralls
   - pip install -e . --use-mirrors
 # command to run tests
-script: "./run_test.sh"
+script: 
+  - coverage run --source=ascii_graph setup.py test
+after_success:
+  - coveralls
