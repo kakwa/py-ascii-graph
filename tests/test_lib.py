@@ -75,7 +75,31 @@ class TestLib(object):
 
             assert res == expected
 
-
+        def test_vcolor(self):
+            from ascii_graph.colordata import vcolor
+            
+            test = [('testval0', 600),
+                    ('testval1', 500),
+                    ('testval2', 400),
+                    ('testval3', 400),
+                    ('testval4', 300),
+                    ('testval5', 200),
+                    ('testval6', 100),
+                    ('testval7', 50 )]
+            
+            expected = [('testval0', 600, Gre),
+                    ('testval1', 500, Yel),
+                    ('testval2', 400, Red),
+                    ('testval3', 400, Gre),
+                    ('testval4', 300, Yel),
+                    ('testval5', 200, Red),
+                    ('testval6', 100, Gre),
+                    ('testval7', 50,  Yel)]
+ 
+            pattern = [Gre, Yel, Red]
+            
+            data = vcolor(test, pattern)
+            assert data == expected
 
         def test_alternate_graphsymbol(self):
             test = [('long_labe☭', 423), ('sl', 1234), ('line3', 531), ('line4', 200), ('line5', 834)]
