@@ -8,6 +8,7 @@ Contents
    colordata
    colors
    examples
+   changelog
 
 .. include:: ../README.rst
 
