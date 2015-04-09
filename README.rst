@@ -70,25 +70,36 @@ command line:
 .. sourcecode:: bash
 
     $ asciigraph -h
-    Usage: asciigraph [-l <label>] [-f file] [-s inc|dec] [-w <number of char>] [-m <min len of char>]
-
+    Usage: asciigraph [-l <label>] [-f file] [-s inc|dec] \
+       [-c] [-t <first color threshold> [-T <second color threshold>] \
+       [-w <number of char>] [-m <min len of char>]
+    
     examples:
-        printf 'label1:10\nlabel2:100\n' | asciigraph -l 'my graph'
-        printf 'l1:10\nl2:100\n' > ./mf; asciigraph -l 'my graph' -f ./mf
-        asciigraph -l 'my graph' -f mf -s inc
-        asciigraph -l 'my graph' -f mf -s dec -w 60 -m 10
-
-
+       printf 'label1:10\nlabel2:100\n' | asciigraph -l 'my graph'
+       printf 'l1:10\nl2:100\n' > ./mf; asciigraph -l 'my graph' -f ./mf
+       asciigraph -l 'my graph' -f mf -s inc
+       asciigraph -l 'my graph' -f mf -s dec -w 60 -m 10
+       asciigraph -l 'my graph' -f mf -c
+       asciigraph -l 'my graph' -f mf -c -t 5 -T 50
+    
+    
     Options:
-        -h, --help            show this help message and exit
-        -f FILE, --file=FILE  import data from FILE (one data per line,
-                        format: <label>:<value>)
-        -s SORT, --sort=SORT  sort type: inc (increasing) or dec (decreasing)
-        -l LAB, --label=LAB   label of the graph
-        -w WIDTH, --width=WIDTH
-                              width of the graph
-        -m LEN, --min_graph=LEN
-                              minimum length of the graph bar
+      -h, --help            show this help message and exit
+      -f FILE, --file=FILE  import data from FILE (one data per line,
+                            format: <label>:<value>)
+      -s SORT, --sort=SORT  sort type: inc (increasing) or dec (decreasing)
+      -l LAB, --label=LAB   label of the graph
+      -w WIDTH, --width=WIDTH
+                            width of the graph
+      -m LEN, --min_graph=LEN
+                            minimum length of the graph bar
+      -t TC1, --threshold-1=TC1
+                            first color threshold, only make sense if --color is
+                            passed
+      -T TC2, --threshold-2=TC2
+                            second color threshold, only make sense if --color is
+                            passed
+      -c, --color           Color the graph
 
     $ printf "ced:1000\nasd:123\nyu:890\n" | asciigraph -l test -s dec
     test
