@@ -35,7 +35,8 @@ do
 load threshold:$max\n\
 load last minute:$load_1\n\
 load last 5 minutes:$load_5\n\
-load last 15 minutes:$load_15\n" | asciigraph -w $width -l 'loadtop' -c -t $t1 -T $t2
+load last 15 minutes:$load_15\n" | \
+    asciigraph -w $width -l 'loadtop' -c -t $t1 -T $t2
 
     #refresh every 1 second
     tput cup 0 0
