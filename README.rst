@@ -52,7 +52,7 @@ Examples
 Library
 -------
 
-Simple code:
+Simple example:
 
 .. sourcecode:: python
 
@@ -77,7 +77,7 @@ Result:
     █████████                                                       200  line4     
     █████████████████████████████████████████                       834  line5
 
-More Complete examples:
+Complex examples (colors, different spacing, no label...):
 
 .. sourcecode:: python
 
