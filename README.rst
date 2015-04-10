@@ -24,6 +24,7 @@ A simple python lib to print data as ascii histograms
 
 ----
 
+:Git: `Github <https://github.com/kakwa/py-ascii-graph>`_
 :PyPI: `Package <https://pypi.python.org/pypi/ascii_graph>`_
 :Doc: `Documentation <http://py-ascii-graph.readthedocs.org>`_
 :License: MIT
