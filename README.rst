@@ -8,8 +8,16 @@ A simple python lib to print data as ascii histograms
         :alt: Travis CI
 
 .. image:: https://pypip.in/d/ascii_graph/badge.png
-    :target: https://pypi.python.org/pypi/ascii_graph
+    :target: https://img.shields.io/pypi/dm/ascii_graph.svg
     :alt: Number of PyPI downloads
+    
+.. image:: https://pypip.in/d/ascii_graph/badge.png
+    :target: https://img.shields.io/pypi/v/ascii_graph.svg
+    :alt: PyPI version
+    
+.. image:: https://pypip.in/d/ascii_graph/badge.png
+    :target: https://img.shields.io/pypi/l/ascii_graph.svg
+    :alt: PyPI license  
 
 .. image:: https://badges.gitter.im/Join%20Chat.svg
    :alt: Join the chat at https://gitter.im/kakwa/py-ascii-graph
@@ -18,9 +26,9 @@ A simple python lib to print data as ascii histograms
 .. image:: https://coveralls.io/repos/kakwa/py-ascii-graph/badge.svg?branch=master 
     :target: https://coveralls.io/r/kakwa/py-ascii-graph?branch=master
 
-.. image:: https://pypip.in/py_versions/ascii_graph/badge.svg
-    :target: https://pypi.python.org/pypi/ascii_graph
-    :alt: Supported Python Versions
+.. .. image:: https://pypip.in/py_versions/ascii_graph/badge.svg
+..    :target: https://pypi.python.org/pypi/ascii_graph
+..    :alt: Supported Python Versions
 
 ----
 
