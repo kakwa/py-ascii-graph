@@ -21,28 +21,32 @@ class Pyasciigraph:
         :param line_length: the max number of char on a line
           if any line cannot be shorter,
           it will go over this limit.
-          default: 79
+          Default: 79
         :type line_length: int
         :param min_graph_length: the min number of char 
           used by the graph itself.
-          default: 50
+          Default: 50
         :type min_graph_length: int
         :param separator_length: the length of field separator.
-          default: 2 
+          Default: 2 
         :type separator_length: int
         :param graphsymbol: the symbol used for the graph bar.
-          default: '█'
+          Default: '█'
         :type graphsymbol: str or unicode (length one)
         :param multivalue: displays all the values if multivalued when True.
           displays only the max value if False
-          default: True
+          Default: True
         :type multivalue: boolean
         :param human_readable: trigger human readable display (K, G, etc)
-          default: None (raw value display)
-        :type human_readable: string
+          Default: None (raw value display)
+
           * 'si' for power of 1000
+
           * 'cs' for power of 1024
+
           * any other value for raw value display)
+
+        :type human_readable: string (si, cs, none)
         """
 
         self.line_length = line_length
