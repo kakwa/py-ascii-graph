@@ -1,0 +1,6 @@
+include *.rst
+graft scripts
+graft docs
+graft examples
+graft tests
+include LICENSE
