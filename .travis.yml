@@ -9,7 +9,7 @@ python:
 # command to install dependencies
 install: 
   - pip install coveralls
-  - pip install -e . --use-mirrors
+  - pip install -e .
 # command to run tests
 script: 
   - coverage run --source=ascii_graph setup.py test || python setup.py test
