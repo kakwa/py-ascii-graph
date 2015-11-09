@@ -107,7 +107,7 @@ class Pyasciigraph:
                 for (ivalue, icolor) in value:
                     if ivalue > maxvalue:
                         maxvalue = ivalue
-                        totalvalue_len += len("," + self._trans_hr(ivalue))
+                    totalvalue_len += len("," + self._trans_hr(ivalue))
 
                 if self.multivalue:
                     # remove one comma
