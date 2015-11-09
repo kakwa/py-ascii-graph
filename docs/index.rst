@@ -19,3 +19,5 @@ Indices and tables
 * :ref:`modindex`
 * :ref:`search`
 
+
+.. include:: forkme.rst

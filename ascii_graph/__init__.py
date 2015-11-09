@@ -6,6 +6,7 @@ import sys
 import collections
 import copy
 
+
 class Pyasciigraph:
 
     def __init__(self, line_length=79,
@@ -13,6 +14,7 @@ class Pyasciigraph:
             separator_length=2,
             graphsymbol=None,
             multivalue=True,
+            human_readable=None,
             ):
         """Constructor of Pyasciigraph
 
@@ -35,6 +37,12 @@ class Pyasciigraph:
           displays only the max value if False
           default: True
         :type multivalue: boolean
+        :param human_readable: trigger human readable display (K, G, etc)
+          default: None (raw value display)
+        :type human_readable: string
+          * 'si' for power of 1000
+          * 'cs' for power of 1024
+          * any other value for raw value display)
         """
 
         self.line_length = line_length
@@ -48,6 +56,28 @@ class Pyasciigraph:
             raise Exception('Bad graphsymbol length, must be 1', \
                     len(self.graphsymbol))
         self.multivalue = multivalue
+        self.hsymbols = [self._u(''),  self._u('K'), self._u('M'),
+                         self._u('G'), self._u('T'), self._u('P'),
+                         self._u('E'), self._u('Z'), self._u('Y')]
+
+        if human_readable == 'si':
+            self.divider = 1000
+        elif human_readable == 'cs':
+            self.divider = 1024
+        else:
+            self.divider = None
+
+    def _trans_hr(self, value):
+        if self.divider is None:
+            return str(value)
+        vl = value
+        for hs in self.hsymbols:
+            new_val = vl / self.divider
+            if new_val < 1:
+                return str(int(vl)) + hs
+            else:
+                vl = new_val
+        return str(int(vl * self.divider)) + hs
 
     @staticmethod
     def _u(x):
@@ -77,15 +107,15 @@ class Pyasciigraph:
                 for (ivalue, icolor) in value:
                     if ivalue > maxvalue:
                         maxvalue = ivalue
-                        totalvalue_len += len("," + str(ivalue))
+                        totalvalue_len += len("," + self._trans_hr(ivalue))
 
                 if self.multivalue:
                     # remove one comma
                     totalvalue_len = totalvalue_len - 1
                 else:
-                    totalvalue_len = len(str(maxvalue))
+                    totalvalue_len = len(self._trans_hr(maxvalue))
             else:
-                totalvalue_len = len(str(value))
+                totalvalue_len = len(self._trans_hr(value))
                 maxvalue = value
 
             if maxvalue > all_max['max_value']:
@@ -144,11 +174,11 @@ class Pyasciigraph:
             for (ivalue, icolor) in value:
                 if icount == 0:
                     # total_len is needed because the color characters count with the len() function even when they are not printed to the screen.
-                    totalvalue_len = len(str(ivalue))
-                    totalvalue = Pyasciigraph._color_string(str(ivalue), icolor)
+                    totalvalue_len = len(self._trans_hr(ivalue))
+                    totalvalue = Pyasciigraph._color_string(self._trans_hr(ivalue), icolor)
                 else:
-                    totalvalue_len += len("," + str(ivalue))
-                    totalvalue += "," + Pyasciigraph._color_string(str(ivalue), icolor)
+                    totalvalue_len += len("," + self._trans_hr(ivalue))
+                    totalvalue += "," + Pyasciigraph._color_string(self._trans_hr(ivalue), icolor)
                 icount += 1
         elif isinstance(value, collections.Iterable):
             max_value=0
@@ -157,12 +187,12 @@ class Pyasciigraph:
                 if ivalue > max_value:
                     max_value = ivalue
                     color = icolor
-            totalvalue_len = len(str(max_value))
-            totalvalue = Pyasciigraph._color_string(str(max_value), color)
+            totalvalue_len = len(self._trans_hr(max_value))
+            totalvalue = Pyasciigraph._color_string(self._trans_hr(max_value), color)
 
         else:
-            totalvalue_len = len(str(value))
-            totalvalue = Pyasciigraph._color_string(str(value), color)
+            totalvalue_len = len(self._trans_hr(value))
+            totalvalue = Pyasciigraph._color_string(self._trans_hr(value), color)
 
         number_space = start_info -\
                 start_value -\
@@ -173,8 +203,7 @@ class Pyasciigraph:
         if number_space < 0:
             number_space = 0
 
-        return  ' ' * number_space +\
-                str(totalvalue) +\
+        return  ' ' * number_space + totalvalue +\
                 ' ' * ((start_info - start_value - totalvalue_len) - number_space)
 
     def _sanitize_string(self, string):

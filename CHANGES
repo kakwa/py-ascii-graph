@@ -1,3 +1,8 @@
+* 1.1.0
+
+    * adding human readable flag (power of 1000 or 1024)
+    * fixing multi values display alignment
+
 * 1.0.1
     * Light cleaning in source code
     * Test for python 3.4

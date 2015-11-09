@@ -34,6 +34,46 @@ class TestLib(object):
 ]
             assert res == expected
 
+        def test_human_readable_si(self):
+            test = [('long_labe☭', 1234), ('sl', 1231234), ('line3', 1231231234), ('line4', 1231231231234), ('line5', 1231231231231234), ('line6', 1231231231231231234), ('line7', 1231231231231231231234), ('line8', 1231231231231231231231234), ('line9', 123231231231231231231231234)]
+            graph = Pyasciigraph(human_readable='si')
+            res = graph.graph('☭test print', test)
+            expected = [
+'☭test print',
+'###############################################################################',          
+'                                                                 1K  long_labe☭',                    
+'                                                                 1M  sl        ',
+'                                                                 1G  line3     ',
+'                                                                 1T  line4     ',
+'                                                                 1P  line5     ',
+'                                                                 1E  line6     ',
+'                                                                 1Z  line7     ',
+'                                                                 1Y  line8     ',
+'█████████████████████████████████████████████████████████████  123Y  line9     ',
+]
+
+            assert res == expected
+
+        def test_human_readable_cs(self):
+            test = [('long_labe☭', 1234), ('sl', 1231234), ('line3', 1231231234), ('line4', 1231231231234), ('line5', 1231231231231234), ('line6', 1231231231231231234), ('line7', 1231231231231231231234), ('line8', 1231231231231231231231234)]
+            graph = Pyasciigraph(human_readable='cs')
+            res = graph.graph('☭test print', test)
+            expected = [
+'☭test print', 
+'###############################################################################',          
+'                                                                 1K  long_labe☭',                    
+'                                                                 1M  sl        ',
+'                                                                 1G  line3     ',
+'                                                                 1T  line4     ',
+'                                                                 1P  line5     ',
+'                                                                 1E  line6     ',
+'                                                                 1Z  line7     ',
+'███████████████████████████████████████████████████████████████  1Y  line8     '
+]
+            assert res == expected
+
+
+
         def test_type_output(self):
             test = [('long_labe☭', 423), ('sl', 1234), ('line3', 531), ('line4', 200), ('line5', 834)]
             graph = Pyasciigraph()

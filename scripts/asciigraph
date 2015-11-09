@@ -23,9 +23,10 @@ def split_once_rightmost(s):
 if __name__ == '__main__':
     usage = "usage: %prog [-l <label>] [-f file] [-s inc|dec] \\\n"\
             "   [-c] [-t <first color threshold> [-T <second color threshold>] \\\n"\
-            "   [-w <number of char>] [-m <min len of char>]\n\n"\
+            "   [-w <number of char>] [-m <min len of char>] [-H] [-M cs|si]\n\n"\
             "examples:\n"\
             "   printf 'label1:10\\nlabel2:100\\n' | %prog -l 'my graph'\n"\
+            "   printf 'label1:1000\\nlabel2:20000\\n' | %prog -l 'my graph' -H -M 'si'\n"\
             "   printf 'l1:10\\nl2:100\\n' > ./mf; %prog -l 'my graph' -f ./mf\n"\
             "   %prog -l 'my graph' -f mf -s inc\n"\
             "   %prog -l 'my graph' -f mf -s dec -w 60 -m 10\n"\
@@ -58,6 +59,12 @@ if __name__ == '__main__':
     parser.add_option("-c", "--color",
             action="store_true", dest="color", default=False,
             help="Color the graph")
+    parser.add_option("-H", "--human-readable",
+            action="store_true", dest="human_readable", default=False,
+            help="enable human readable mode")
+    parser.add_option("-M", "--human-readable-mane",
+            dest="hr_mode", default='cs',
+            help="Human readable mode ('cs' -> power of 1024 or 'si' -> power of 1000, default: cs)")
 
     (options, args) = parser.parse_args()
 
@@ -86,6 +93,10 @@ if __name__ == '__main__':
         for line in char_stream:
             input_analyzer(line, data)
 
+    if options.human_readable:
+        hr_mode = options.hr_mode
+    else:
+        hr_mode = None
     label = options.label or ''
     width = options.width or 79
     width = int(width)
@@ -97,7 +108,7 @@ if __name__ == '__main__':
     if sort == 'inc':
         data = sorted(data, key=lambda value: value[1], reverse=False)
 
-    graph = Pyasciigraph(line_length=width, min_graph_length=mingraph, multivalue=False)
+    graph = Pyasciigraph(line_length=width, min_graph_length=mingraph, multivalue=False, human_readable=hr_mode)
 
     if options.color:
        maxval = int(max(data,key=lambda item:item[0])[1])
