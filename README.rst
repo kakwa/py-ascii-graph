@@ -145,10 +145,11 @@ command line:
     $ asciigraph -h
     Usage: asciigraph [-l <label>] [-f file] [-s inc|dec] \
        [-c] [-t <first color threshold> [-T <second color threshold>] \
-       [-w <number of char>] [-m <min len of char>]
+       [-w <number of char>] [-m <min len of char>] [-H] [-M cs|si]
     
     examples:
        printf 'label1:10\nlabel2:100\n' | asciigraph -l 'my graph'
+       printf 'label1:1000\nlabel2:20000\n' | asciigraph -l 'my graph' -H -M 'si'
        printf 'l1:10\nl2:100\n' > ./mf; asciigraph -l 'my graph' -f ./mf
        asciigraph -l 'my graph' -f mf -s inc
        asciigraph -l 'my graph' -f mf -s dec -w 60 -m 10
@@ -173,6 +174,10 @@ command line:
                             second color threshold, only make sense if --color is
                             passed
       -c, --color           Color the graph
+      -H, --human-readable  enable human readable mode
+      -M HR_MODE, --human-readable-mane=HR_MODE
+                            Human readable mode ('cs' -> power of 1024 or 'si' ->
+                            power of 1000, default: cs)
 
     $ printf "ced:1000\nasd:123\nyu:890\n" | asciigraph -l test -s dec
     test
