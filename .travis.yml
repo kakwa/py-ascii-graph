@@ -10,6 +10,6 @@ install:
   - pip install -e . --use-mirrors
 # command to run tests
 script: 
-  - coverage run --source=ascii_graph setup.py test
+  - coverage run --source=ascii_graph setup.py test || python setup.py test
 after_success:
   - coveralls
