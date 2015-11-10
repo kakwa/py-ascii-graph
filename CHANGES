@@ -1,3 +1,7 @@
+* 1.1.1
+
+    * fix auto-threshold calculation in asciigraph command line tool
+
 * 1.1.0
 
     * adding human readable flag (power of 1000 or 1024)
