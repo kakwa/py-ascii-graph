@@ -1,5 +1,7 @@
 #!/bin/sh
 
+width=`tput cols`
+
 # simple example to graph the du command output
 
 exit_err(){
@@ -19,4 +21,4 @@ dir='./'
 # run du -> refomart a little with awk -> give it to asciigraph
 du -d 1 "$dir" | \
     awk '{printf "%s:%s\n", $2, $1 * 1024;}' | \
-    asciigraph -l 'Disk Usage' -H -s dec
+    asciigraph -l 'Disk Usage' -H -s dec -c -w $width
