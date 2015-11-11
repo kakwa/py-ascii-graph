@@ -1,3 +1,8 @@
+* 1.1.3
+
+    * fix typo in long option name for human readable mode in cli tool
+    * reorganize --help to be more consistant in cli tool
+
 * 1.1.2
 
     * fix bad format/empty dataset in asciigraph command line tool
