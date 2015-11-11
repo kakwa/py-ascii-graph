@@ -171,25 +171,17 @@ command line:
                             width of the graph
       -m LEN, --min_graph=LEN
                             minimum length of the graph bar
+      -c, --color           Color the graph
       -t TC1, --threshold-1=TC1
                             first color threshold, only make sense if --color is
                             passed
       -T TC2, --threshold-2=TC2
                             second color threshold, only make sense if --color is
                             passed
-      -c, --color           Color the graph
-      -H, --human-readable  enable human readable mode
-      -M HR_MODE, --human-readable-mane=HR_MODE
+      -H, --human-readable  enable human readable mode (K, M, G, etc)
+      -M HR_MODE, --human-readable-mode=HR_MODE
                             Human readable mode ('cs' -> power of 1024 or 'si' ->
                             power of 1000, default: cs)
-
-    $ printf "ced:1000\nasd:123\nyu:890\n" | asciigraph -l test -s dec
-    test
-    ###############################################################################
-    ██████████████████████████████████████████████████████████████████  1000.0  ced
-    ██████████████████████████████████████████████████████████           890.0  yu 
-    ████████                                                             123.0  asd
-
 
 See the examples/ directory for more examples.
 
