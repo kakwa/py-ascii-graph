@@ -107,37 +107,27 @@ Complex examples (colors, different spacing, no label...):
     for line in graph.graph('vcolor test', data):
         print(line)
     
-    print('Data:')
-    print(data)
-    
-    
-    print('\nMultiColor example:')
     # Multicolor on one line
-    thresholds = {
-      51:  Gre,
-      100: Blu,
-      350: Yel,
-      500: Red,
-    }
+    print('\nMultiColor example:')
     
+    # Color lines according to Thresholds
+    thresholds = {
+      51:  Gre, 100: Blu, 350: Yel, 500: Red,
+    }
     data = hcolor(test, thresholds)
     
+    # graph with colors, power of 1000, different graph symbol and a few tweaks
     graph = Pyasciigraph(
         line_length=120,
         min_graph_length=50,
         separator_length=4,
         multivalue=False,
+        human_readable='si',
         graphsymbol='*'
         )
     
-    for line in graph.graph(
-                        label=None,
-                        data=data
-                        ):
+    for line in graph.graph(label=None, data=data):
         print(line)
-    print('Data:')
-    
-    print(data)
 
 Command Line Utility
 --------------------
