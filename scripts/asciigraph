@@ -51,18 +51,18 @@ if __name__ == '__main__':
     parser.add_option("-m", "--min_graph", dest="mingraph", 
             help="minimum length of the graph bar", 
             metavar="LEN")
+    parser.add_option("-c", "--color",
+            action="store_true", dest="color", default=False,
+            help="Color the graph")
     parser.add_option("-t", "--threshold-1", dest="t1",
             help="first color threshold, only make sense if --color is passed", 
             metavar="TC1")
     parser.add_option("-T", "--threshold-2", dest="t2",
             help="second color threshold, only make sense if --color is passed", 
             metavar="TC2")
-    parser.add_option("-c", "--color",
-            action="store_true", dest="color", default=False,
-            help="Color the graph")
     parser.add_option("-H", "--human-readable",
             action="store_true", dest="human_readable", default=False,
-            help="enable human readable mode")
+            help="enable human readable mode (K, M, G, etc)")
     parser.add_option("-M", "--human-readable-mode",
             dest="hr_mode", default='cs',
             help="Human readable mode ('cs' -> power of 1024 or 'si' -> power of 1000, default: cs)")
