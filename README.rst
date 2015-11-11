@@ -53,7 +53,7 @@ Just give it a label and a list of tuples (description, value)
 and it will automaticaly creates a nice histogram, 
 with all the stuff aligned and fitting in a fixed width line (if possible).
 
-py-asciigraph although comes with a command line utility.
+py-ascii-graph although comes with a command line utility.
 
 Examples
 ========
