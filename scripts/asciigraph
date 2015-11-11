@@ -12,7 +12,8 @@ from ascii_graph.colordata import hcolor
 
 def input_analyzer(line, data):
     split = split_once_rightmost(line)
-    data.append((split[0], float(split[1])))
+    if len(split) == 2:
+        data.append((split[0], float(split[1])))
 
 def split_once_rightmost(s):
      seq = s.split(':')
@@ -110,7 +111,7 @@ if __name__ == '__main__':
 
     graph = Pyasciigraph(line_length=width, min_graph_length=mingraph, multivalue=False, human_readable=hr_mode)
 
-    if options.color:
+    if options.color and len(data) != 0:
        maxval = int(max(data, key=lambda item:item[1])[1])
        t1 = float(options.t1) if not options.t1 is None else maxval / 3
        t2 = float(options.t2) if not options.t2 is None else maxval * 2 / 3
