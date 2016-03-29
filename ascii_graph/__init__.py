@@ -135,7 +135,10 @@ class Pyasciigraph:
 
     def _gen_graph_string(self, value, max_value, graph_length, start_value, color):
         def _gen_graph_string_part(value, max_value, graph_length, start_value, color, total_value, lastgraph):
-            number_of_square = int(value * graph_length / max_value)
+            if max_value == 0:
+                number_of_square = 0
+            else:
+                number_of_square = int(value * graph_length / max_value)
             if lastgraph:
                 number_of_space = int(start_value - (number_of_square + total_value) )
             else:
