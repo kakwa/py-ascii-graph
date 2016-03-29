@@ -1,3 +1,7 @@
+* 1.1.4
+
+    * fix DivisionByZero in case all values are 0
+
 * 1.1.3
 
     * fix typo in long option name for human readable mode in cli tool
@@ -17,11 +21,13 @@
     * fixing multi values display alignment
 
 * 1.0.1
+
     * Light cleaning in source code
     * Test for python 3.4
     * Better documentation
 
 * 1.0.0
+
     * Remove sort capabilities
     * Add coloring capabilities (mono and multi color)
       (big thanks to David Whiteside)
@@ -31,11 +37,16 @@
     * Documentation improvement
 
 * 0.2.1
+
     * Small documentation improvement
+
 * 0.2.0
+
     * Fix number of encoding issues
     * Add a sort capability
     * Add unit tests
     * Add a command line utility (asciigraph)
+
 * 0.1.0
+
     * Initial packaging, initial documentation and overall cleaning (big thanks to James Pearson (xiongchiamiov))
