@@ -175,7 +175,14 @@ class Pyasciigraph:
         number_of_space = (line_length - start_info - len(info))
         return info + Pyasciigraph._u(' ') * number_of_space
 
-    def _gen_value_string(self, value, color, start_value, start_info):
+    def _gen_value_string(self, value, color, start_value, start_info, float_format=False):
+          
+        floatmode = isinstance(value, float)
+        if floatmode:
+            if not float_format:
+                float_format = '{:,.2f}'
+            float_string = float_format.format(value)
+
         icount = 0
         if isinstance(value, collections.Iterable) and self.multivalue:
             for (ivalue, icolor) in value:
@@ -209,6 +216,9 @@ class Pyasciigraph:
         # This must not be negitive, this happens when the string length is larger than the separator length
         if number_space < 0:
             number_space = 0
+
+        if floatmode:
+            totalvalue = float_string
 
         return  ' ' * number_space + totalvalue +\
                 ' ' * ((start_info - start_value - totalvalue_len) - number_space)
@@ -255,13 +265,14 @@ class Pyasciigraph:
                 ret.append((self._sanitize_string(item[0]), self._sanitize_value(item[1]), item[2]))
         return ret
 
-    def graph(self, label=None, data=[]):
+    def graph(self, label=None, data=[], float_format=False):
         """function generating the graph
 
         :param string label: the label of the graph
         :param iterable data: the data (list of tuple (info, value))
                 info must be "castable" to a unicode string
                 value must be an int or a float
+        :param string float_format: a formatting string for float values
         :rtype: a list of strings (each lines of the graph)
 
         """
@@ -311,10 +322,7 @@ class Pyasciigraph:
             result.append(san_label)
             result.append(Pyasciigraph._u('#')* real_line_length)
 
-        for item in san_data:
-            info = item[0]
-            value = item[1]
-            color = item[2]
+        for info, value, color in san_data:
 
             graph_string = self._gen_graph_string(
                     value,
@@ -328,7 +336,8 @@ class Pyasciigraph:
                     value,
                     color,
                     start_value,
-                    start_info
+                    start_info,
+                    float_format=float_format,
                     )
 
             info_string = self._gen_info_string(
