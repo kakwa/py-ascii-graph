@@ -47,7 +47,6 @@ class TestLib(object):
 '█████████                                                    200.00  line4     ',
 '██████████████████████████████████████                       834.00  line5     ',
 ]
-            print res
             assert res == expected
 
 
