@@ -34,6 +34,24 @@ class TestLib(object):
 ]
             assert res == expected
 
+        def test_float_format(self):
+            test = [('long_labe☭', 423.197), ('sl', 1234.12341), ('line3', 531.11), ('line4', 200), ('line5', 834)]
+            graph = Pyasciigraph(float_format='{0:,.2f}')
+            res = graph.graph('☭test print', test)
+            expected = [
+'☭test print',
+'###############################################################################',
+'███████████████████                                          423.20  long_labe☭',
+'█████████████████████████████████████████████████████████  1,234.12  sl        ',
+'████████████████████████                                     531.11  line3     ',
+'█████████                                                    200.00  line4     ',
+'██████████████████████████████████████                       834.00  line5     ',
+]
+            print res
+            assert res == expected
+
+
+
         def test_zeros(self):
             test = [('long_labe☭', 0), ('sl', 0), ('line3', 0), ('line4', 0), ('line5', 0)]
             graph = Pyasciigraph()

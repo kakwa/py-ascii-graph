@@ -15,6 +15,7 @@ class Pyasciigraph:
             graphsymbol=None,
             multivalue=True,
             human_readable=None,
+            float_format='{0:.0f}'
             ):
         """Constructor of Pyasciigraph
 
@@ -47,11 +48,16 @@ class Pyasciigraph:
           * any other value for raw value display)
 
         :type human_readable: string (si, cs, none)
+        :param float_format: formatting of the float value
+          Default: '{0:.0f}' (convert to integers).
+          expample: '{:,.2f}' (2 decimals, '.' to separate decimal and int,
+          ',' every three power of tens).
         """
 
         self.line_length = line_length
         self.separator_length = separator_length
         self.min_graph_length = min_graph_length
+        self.float_format = float_format
         if graphsymbol is None:
             self.graphsymbol = self._u('█')
         else:
@@ -72,16 +78,17 @@ class Pyasciigraph:
             self.divider = None
 
     def _trans_hr(self, value):
+
         if self.divider is None:
-            return str(value)
+            return self.float_format.format(value)
         vl = value
         for hs in self.hsymbols:
             new_val = vl / self.divider
             if new_val < 1:
-                return str(int(vl)) + hs
+                return self.float_format.format(vl) + hs
             else:
                 vl = new_val
-        return str(int(vl * self.divider)) + hs
+        return self.float_format.format(vl * self.divider) + hs
 
     @staticmethod
     def _u(x):
@@ -175,14 +182,8 @@ class Pyasciigraph:
         number_of_space = (line_length - start_info - len(info))
         return info + Pyasciigraph._u(' ') * number_of_space
 
-    def _gen_value_string(self, value, color, start_value, start_info, float_format=False):
+    def _gen_value_string(self, value, color, start_value, start_info):
           
-        floatmode = isinstance(value, float)
-        if floatmode:
-            if not float_format:
-                float_format = '{:,.2f}'
-            float_string = float_format.format(value)
-
         icount = 0
         if isinstance(value, collections.Iterable) and self.multivalue:
             for (ivalue, icolor) in value:
@@ -216,9 +217,6 @@ class Pyasciigraph:
         # This must not be negitive, this happens when the string length is larger than the separator length
         if number_space < 0:
             number_space = 0
-
-        if floatmode:
-            totalvalue = float_string
 
         return  ' ' * number_space + totalvalue +\
                 ' ' * ((start_info - start_value - totalvalue_len) - number_space)
@@ -265,14 +263,13 @@ class Pyasciigraph:
                 ret.append((self._sanitize_string(item[0]), self._sanitize_value(item[1]), item[2]))
         return ret
 
-    def graph(self, label=None, data=[], float_format=False):
+    def graph(self, label=None, data=[]):
         """function generating the graph
 
         :param string label: the label of the graph
         :param iterable data: the data (list of tuple (info, value))
                 info must be "castable" to a unicode string
                 value must be an int or a float
-        :param string float_format: a formatting string for float values
         :rtype: a list of strings (each lines of the graph)
 
         """
@@ -337,7 +334,6 @@ class Pyasciigraph:
                     color,
                     start_value,
                     start_info,
-                    float_format=float_format,
                     )
 
             info_string = self._gen_info_string(
