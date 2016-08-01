@@ -10,13 +10,13 @@ import copy
 class Pyasciigraph:
 
     def __init__(self, line_length=79,
-            min_graph_length=50,
-            separator_length=2,
-            graphsymbol=None,
-            multivalue=True,
-            human_readable=None,
-            float_format='{0:.0f}'
-            ):
+                 min_graph_length=50,
+                 separator_length=2,
+                 graphsymbol=None,
+                 multivalue=True,
+                 human_readable=None,
+                 float_format='{0:.0f}'
+                 ):
         """Constructor of Pyasciigraph
 
         :param line_length: the max number of char on a line
@@ -24,12 +24,12 @@ class Pyasciigraph:
           it will go over this limit.
           Default: 79
         :type line_length: int
-        :param min_graph_length: the min number of char 
+        :param min_graph_length: the min number of char
           used by the graph itself.
           Default: 50
         :type min_graph_length: int
         :param separator_length: the length of field separator.
-          Default: 2 
+          Default: 2
         :type separator_length: int
         :param graphsymbol: the symbol used for the graph bar.
           Default: '█'
@@ -63,10 +63,10 @@ class Pyasciigraph:
         else:
             self.graphsymbol = graphsymbol
         if len(self.graphsymbol) != 1:
-            raise Exception('Bad graphsymbol length, must be 1', \
-                    len(self.graphsymbol))
+            raise Exception('Bad graphsymbol length, must be 1',
+                            len(self.graphsymbol))
         self.multivalue = multivalue
-        self.hsymbols = [self._u(''),  self._u('K'), self._u('M'),
+        self.hsymbols = [self._u(''), self._u('K'), self._u('M'),
                          self._u('G'), self._u('T'), self._u('P'),
                          self._u('E'), self._u('Z'), self._u('Y')]
 
@@ -140,14 +140,17 @@ class Pyasciigraph:
 
         return all_max
 
-    def _gen_graph_string(self, value, max_value, graph_length, start_value, color):
-        def _gen_graph_string_part(value, max_value, graph_length, start_value, color, total_value, lastgraph):
+    def _gen_graph_string(
+            self, value, max_value, graph_length, start_value, color):
+        def _gen_graph_string_part(
+                value, max_value, graph_length, start_value, color, total_value, lastgraph):
             if max_value == 0:
                 number_of_square = 0
             else:
                 number_of_square = int(value * graph_length / max_value)
             if lastgraph:
-                number_of_space = int(start_value - (number_of_square + total_value) )
+                number_of_space = int(
+                    start_value - (number_of_square + total_value))
             else:
                 number_of_space = 0
             return (Pyasciigraph._color_string(self.graphsymbol * number_of_square + Pyasciigraph._u(' ') * number_of_space, color), number_of_square)
@@ -161,68 +164,82 @@ class Pyasciigraph:
             for i in sortedvalue:
                 ivalue = i[0]
                 icolor = i[1]
-                scaled_value = ivalue-accuvalue
-                # Check if last item in list, if so then add spaces to the end to align the value and label
+                scaled_value = ivalue - accuvalue
+                # Check if last item in list, if so then add spaces to the end
+                # to align the value and label
                 if i == sortedvalue[-1]:
-                    (partstr, squares) = _gen_graph_string_part(scaled_value, max_value, graph_length, start_value, icolor, totalsquares, True)
+                    (partstr, squares) = _gen_graph_string_part(
+                        scaled_value, max_value, graph_length, start_value, icolor, totalsquares, True)
                     totalstring += partstr
                     totalsquares += squares
                 else:
-                    (partstr, squares) = _gen_graph_string_part(scaled_value, max_value, graph_length, start_value, icolor, totalsquares, False)
+                    (partstr, squares) = _gen_graph_string_part(
+                        scaled_value, max_value, graph_length, start_value, icolor, totalsquares, False)
                     totalstring += partstr
                     totalsquares += squares
                 accuvalue += scaled_value
             return totalstring
         else:
-            (partstr, squares) = _gen_graph_string_part(value, max_value, graph_length, start_value, color, 0, True)
+            (partstr, squares) = _gen_graph_string_part(
+                value, max_value, graph_length, start_value, color, 0, True)
             return partstr
-
 
     def _gen_info_string(self, info, start_info, line_length):
         number_of_space = (line_length - start_info - len(info))
         return info + Pyasciigraph._u(' ') * number_of_space
 
     def _gen_value_string(self, value, color, start_value, start_info):
-          
+
         icount = 0
         if isinstance(value, collections.Iterable) and self.multivalue:
             for (ivalue, icolor) in value:
                 if icount == 0:
-                    # total_len is needed because the color characters count with the len() function even when they are not printed to the screen.
+                    # total_len is needed because the color characters count
+                    # with the len() function even when they are not printed to
+                    # the screen.
                     totalvalue_len = len(self._trans_hr(ivalue))
-                    totalvalue = Pyasciigraph._color_string(self._trans_hr(ivalue), icolor)
+                    totalvalue = Pyasciigraph._color_string(
+                        self._trans_hr(ivalue), icolor)
                 else:
                     totalvalue_len += len("," + self._trans_hr(ivalue))
-                    totalvalue += "," + Pyasciigraph._color_string(self._trans_hr(ivalue), icolor)
+                    totalvalue += "," + \
+                        Pyasciigraph._color_string(
+                            self._trans_hr(ivalue),
+                            icolor)
                 icount += 1
         elif isinstance(value, collections.Iterable):
-            max_value=0
-            color=None
+            max_value = 0
+            color = None
             for (ivalue, icolor) in value:
                 if ivalue > max_value:
                     max_value = ivalue
                     color = icolor
             totalvalue_len = len(self._trans_hr(max_value))
-            totalvalue = Pyasciigraph._color_string(self._trans_hr(max_value), color)
+            totalvalue = Pyasciigraph._color_string(
+                self._trans_hr(max_value), color)
 
         else:
             totalvalue_len = len(self._trans_hr(value))
-            totalvalue = Pyasciigraph._color_string(self._trans_hr(value), color)
+            totalvalue = Pyasciigraph._color_string(
+                self._trans_hr(value), color)
 
         number_space = start_info -\
-                start_value -\
-                totalvalue_len -\
-                self.separator_length
+            start_value -\
+            totalvalue_len -\
+            self.separator_length
 
-        # This must not be negitive, this happens when the string length is larger than the separator length
+        # This must not be negitive, this happens when the string length is
+        # larger than the separator length
         if number_space < 0:
             number_space = 0
 
         return  ' ' * number_space + totalvalue +\
-                ' ' * ((start_info - start_value - totalvalue_len) - number_space)
+                ' ' * \
+            ((start_info - start_value - totalvalue_len)
+             - number_space)
 
     def _sanitize_string(self, string):
-        #get the type of a unicode string
+        # get the type of a unicode string
         unicode_type = type(Pyasciigraph._u('t'))
         input_type = type(string)
         if input_type is str:
@@ -256,11 +273,20 @@ class Pyasciigraph:
         for item in data:
             if (len(item) == 2):
                 if isinstance(item[1], collections.Iterable):
-                    ret.append((self._sanitize_string(item[0]), self._sanitize_value(item[1]), None))
+                    ret.append(
+                        (self._sanitize_string(item[0]),
+                         self._sanitize_value(item[1]),
+                         None))
                 else:
-                    ret.append((self._sanitize_string(item[0]), self._sanitize_value(item[1]), None))
+                    ret.append(
+                        (self._sanitize_string(item[0]),
+                         self._sanitize_value(item[1]),
+                         None))
             if (len(item) == 3):
-                ret.append((self._sanitize_string(item[0]), self._sanitize_value(item[1]), item[2]))
+                ret.append(
+                    (self._sanitize_string(item[0]),
+                     self._sanitize_value(item[1]),
+                     item[2]))
         return ret
 
     def graph(self, label=None, data=[]):
@@ -286,61 +312,61 @@ class Pyasciigraph:
         real_line_length = max(self.line_length, label_len)
 
         min_line_length = self.min_graph_length +\
-                2 * self.separator_length +\
-                all_max['value_max_length'] +\
-                all_max['info_max_length']
+            2 * self.separator_length +\
+            all_max['value_max_length'] +\
+            all_max['info_max_length']
 
         if min_line_length < real_line_length:
-            #calcul of where to start info
+            # calcul of where to start info
             start_info = self.line_length -\
-                    all_max['info_max_length']
-            #calcul of where to start value
+                all_max['info_max_length']
+            # calcul of where to start value
             start_value = start_info -\
-                    self.separator_length -\
-                    all_max['value_max_length']
-            #calcul of where to end graph
+                self.separator_length -\
+                all_max['value_max_length']
+            # calcul of where to end graph
             graph_length = start_value -\
-                    self.separator_length
+                self.separator_length
         else:
-            #calcul of where to start value
+            # calcul of where to start value
             start_value = self.min_graph_length +\
-                    self.separator_length
-            #calcul of where to start info
+                self.separator_length
+            # calcul of where to start info
             start_info = start_value +\
-                    all_max['value_max_length'] +\
-                    self.separator_length
-            #calcul of where to end graph
+                all_max['value_max_length'] +\
+                self.separator_length
+            # calcul of where to end graph
             graph_length = start_value -\
-                    self.separator_length
-            #calcul of the real line length
+                self.separator_length
+            # calcul of the real line length
             real_line_length = min_line_length
 
         if not label is None:
             result.append(san_label)
-            result.append(Pyasciigraph._u('#')* real_line_length)
+            result.append(Pyasciigraph._u('#') * real_line_length)
 
         for info, value, color in san_data:
 
             graph_string = self._gen_graph_string(
-                    value,
+                value,
                     all_max['max_value'],
                     graph_length,
                     start_value,
                     color
-                    )
+            )
 
             value_string = self._gen_value_string(
-                    value,
+                value,
                     color,
                     start_value,
                     start_info,
-                    )
+            )
 
             info_string = self._gen_info_string(
-                    info,
+                info,
                     start_info,
                     real_line_length
-                    )
+            )
             new_line = graph_string + value_string + info_string
             result.append(new_line)
 
