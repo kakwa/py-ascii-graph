@@ -116,14 +116,16 @@ Complex examples (colors, different spacing, no label...):
     }
     data = hcolor(test, thresholds)
     
-    # graph with colors, power of 1000, different graph symbol and a few tweaks
+    # graph with colors, power of 1000, different graph symbol,
+    # float formatting and a few tweaks
     graph = Pyasciigraph(
         line_length=120,
         min_graph_length=50,
         separator_length=4,
         multivalue=False,
         human_readable='si',
-        graphsymbol='*'
+        graphsymbol='*',
+        float_format='{0:,.2f}'
         )
     
     for line in graph.graph(label=None, data=data):
@@ -144,10 +146,10 @@ command line:
     examples:
        printf 'label1:10\nlabel2:100\n' | asciigraph -l 'my graph'
        printf 'label1:1000\nlabel2:20000\n' | asciigraph -l 'my graph' -H -M 'si'
-       printf 'l1:10\nl2:100\n' > ./mf; asciigraph -l 'my graph' -f ./mf
+       printf 'l1:100\nl2:1200.42\n' > ./mf; asciigraph -l 'my graph' -f ./mf
        asciigraph -l 'my graph' -f mf -s inc
        asciigraph -l 'my graph' -f mf -s dec -w 60 -m 10
-       asciigraph -l 'my graph' -f mf -c
+       asciigraph -l 'my graph' -f mf -c -F '{0:,.2f}'
        asciigraph -l 'my graph' -f mf -c -t 5 -T 50
     
     
@@ -172,6 +174,9 @@ command line:
       -M HR_MODE, --human-readable-mode=HR_MODE
                             Human readable mode ('cs' -> power of 1024 or 'si' ->
                             power of 1000, default: cs)
+      -F FORMAT, --float-format=FORMAT
+                            float formatting, ex: {0:,.2f}
+
 
 See the examples/ directory for more examples.
 

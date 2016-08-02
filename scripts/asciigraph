@@ -28,10 +28,10 @@ if __name__ == '__main__':
             "examples:\n"\
             "   printf 'label1:10\\nlabel2:100\\n' | %prog -l 'my graph'\n"\
             "   printf 'label1:1000\\nlabel2:20000\\n' | %prog -l 'my graph' -H -M 'si'\n"\
-            "   printf 'l1:10\\nl2:100\\n' > ./mf; %prog -l 'my graph' -f ./mf\n"\
+            "   printf 'l1:100\\nl2:1200.42\\n' > ./mf; %prog -l 'my graph' -f ./mf\n"\
             "   %prog -l 'my graph' -f mf -s inc\n"\
             "   %prog -l 'my graph' -f mf -s dec -w 60 -m 10\n"\
-            "   %prog -l 'my graph' -f mf -c\n"\
+            "   %prog -l 'my graph' -f mf -c -F '{0:,.2f}'\n"\
             "   %prog -l 'my graph' -f mf -c -t 5 -T 50\n"
 
     parser = OptionParser(usage=usage)
@@ -66,6 +66,9 @@ if __name__ == '__main__':
     parser.add_option("-M", "--human-readable-mode",
             dest="hr_mode", default='cs',
             help="Human readable mode ('cs' -> power of 1024 or 'si' -> power of 1000, default: cs)")
+    parser.add_option("-F", "--float-format", dest="float_format", default='{0:.0f}',
+            help="float formatting, ex: {0:,.2f}",
+            metavar="FORMAT")
 
     (options, args) = parser.parse_args()
 
@@ -75,7 +78,7 @@ if __name__ == '__main__':
         try:
             f = open(options.filename, 'r')
         except IOError:
-            print('cannot open file: %(file)s' % { 'file': options.filename})
+            print('Cannot open file: %(file)s' % { 'file': options.filename})
             exit(1)
 
         if sys.version < '3':
@@ -85,6 +88,12 @@ if __name__ == '__main__':
 
         for line in char_stream:
             input_analyzer(line, data)
+
+    try:
+        options.float_format.format(0.0)
+    except:
+        print('Bad float formatting')
+        exit(1)
 
     if not sys.stdin.isatty():
         if sys.version < '3':
@@ -109,7 +118,7 @@ if __name__ == '__main__':
     if sort == 'inc':
         data = sorted(data, key=lambda value: value[1], reverse=False)
 
-    graph = Pyasciigraph(line_length=width, min_graph_length=mingraph, multivalue=False, human_readable=hr_mode)
+    graph = Pyasciigraph(line_length=width, min_graph_length=mingraph, multivalue=False, human_readable=hr_mode, float_format=options.float_format)
 
     if options.color and len(data) != 0:
        maxval = int(max(data, key=lambda item:item[1])[1])
