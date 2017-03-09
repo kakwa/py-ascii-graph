@@ -6,10 +6,6 @@ A simple python lib to print data as ascii histograms
 .. image:: https://secure.travis-ci.org/kakwa/py-ascii-graph.png?branch=master
         :target: http://travis-ci.org/kakwa/py-ascii-graph
         :alt: Travis CI
-
-.. image:: https://img.shields.io/pypi/dm/ascii_graph.svg
-    :target: https://pypi.python.org/pypi/ascii_graph
-    :alt: Number of PyPI downloads
     
 .. image:: https://img.shields.io/pypi/v/ascii_graph.svg
     :target: https://pypi.python.org/pypi/ascii_graph
