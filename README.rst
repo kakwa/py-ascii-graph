@@ -121,7 +121,8 @@ Complex examples (colors, different spacing, no label...):
         multivalue=False,
         human_readable='si',
         graphsymbol='*',
-        float_format='{0:,.2f}'
+        float_format='{0:,.2f}',
+        force_max_value=2000,
         )
     
     for line in graph.graph(label=None, data=data):
