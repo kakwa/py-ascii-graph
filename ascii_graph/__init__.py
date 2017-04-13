@@ -12,6 +12,7 @@ class Pyasciigraph:
     def __init__(self, line_length=79,
                  min_graph_length=50,
                  separator_length=2,
+                 force_max_value=None,
                  graphsymbol=None,
                  multivalue=True,
                  human_readable=None,
@@ -28,6 +29,10 @@ class Pyasciigraph:
           used by the graph itself.
           Default: 50
         :type min_graph_length: int
+        :param force_max_value: if provided, force a max value in order to graph
+          each line with respect to it (only taking the actual max value if
+          it is greater).
+        :type: force_max_value: int
         :param separator_length: the length of field separator.
           Default: 2
         :type separator_length: int
@@ -57,6 +62,7 @@ class Pyasciigraph:
         self.line_length = line_length
         self.separator_length = separator_length
         self.min_graph_length = min_graph_length
+        self.max_value = force_max_value
         self.float_format = float_format
         if graphsymbol is None:
             self.graphsymbol = self._u('█')
@@ -109,6 +115,9 @@ class Pyasciigraph:
         all_max['value_max_length'] = 0
         all_max['info_max_length'] = 0
         all_max['max_value'] = 0
+
+        if self.max_value is not None:
+            all_max['max_value'] = self.max_value
 
         for (info, value, color) in data:
             totalvalue_len = 0
