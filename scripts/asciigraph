@@ -35,30 +35,30 @@ if __name__ == '__main__':
             "   %prog -l 'my graph' -f mf -c -t 5 -T 50\n"
 
     parser = OptionParser(usage=usage)
-    parser.add_option("-f", "--file", dest="filename", 
+    parser.add_option("-f", "--file", dest="filename",
             help="import data from FILE (one data per line,            "\
-                "format: <label>:<value>)", 
+                "format: <label>:<value>)",
             metavar="FILE")
-    parser.add_option("-s", "--sort", dest="sort", 
-            help="sort type: inc (increasing) or dec (decreasing)", 
+    parser.add_option("-s", "--sort", dest="sort",
+            help="sort type: inc (increasing) or dec (decreasing)",
             metavar="SORT")
-    parser.add_option("-l", "--label", dest="label", 
-            help="label of the graph", 
+    parser.add_option("-l", "--label", dest="label",
+            help="label of the graph",
             metavar="LAB")
-    parser.add_option("-w", "--width", dest="width", 
-            help="width of the graph", 
+    parser.add_option("-w", "--width", dest="width",
+            help="width of the graph",
             metavar="WIDTH")
-    parser.add_option("-m", "--min_graph", dest="mingraph", 
-            help="minimum length of the graph bar", 
+    parser.add_option("-m", "--min_graph", dest="mingraph",
+            help="minimum length of the graph bar",
             metavar="LEN")
     parser.add_option("-c", "--color",
             action="store_true", dest="color", default=False,
             help="Color the graph")
     parser.add_option("-t", "--threshold-1", dest="t1",
-            help="first color threshold, only make sense if --color is passed", 
+            help="first color threshold, only make sense if --color is passed",
             metavar="TC1")
     parser.add_option("-T", "--threshold-2", dest="t2",
-            help="second color threshold, only make sense if --color is passed", 
+            help="second color threshold, only make sense if --color is passed",
             metavar="TC2")
     parser.add_option("-H", "--human-readable",
             action="store_true", dest="human_readable", default=False,
@@ -66,9 +66,13 @@ if __name__ == '__main__':
     parser.add_option("-M", "--human-readable-mode",
             dest="hr_mode", default='cs',
             help="Human readable mode ('cs' -> power of 1024 or 'si' -> power of 1000, default: cs)")
-    parser.add_option("-F", "--float-format", dest="float_format", default='{0:.0f}',
+    parser.add_option("-F", "--float-format",
+            dest="float_format", default='{0:.0f}',
             help="float formatting, ex: {0:,.2f}",
             metavar="FORMAT")
+    parser.add_option("-x", "--force-max-value", dest="force_max_value",
+            help="set max value",
+            metavar="MAX")
 
     (options, args) = parser.parse_args()
 
@@ -117,24 +121,24 @@ if __name__ == '__main__':
         data = sorted(data, key=lambda value: value[1], reverse=True)
     if sort == 'inc':
         data = sorted(data, key=lambda value: value[1], reverse=False)
-
-    graph = Pyasciigraph(line_length=width, min_graph_length=mingraph, multivalue=False, human_readable=hr_mode, float_format=options.float_format)
+    force_max_value = float(options.force_max_value) if not options.force_max_value is None else None
+    graph = Pyasciigraph(line_length=width, min_graph_length=mingraph, multivalue=False, human_readable=hr_mode,
+                         float_format=options.float_format, force_max_value=force_max_value)
 
     if options.color and len(data) != 0:
-       maxval = int(max(data, key=lambda item:item[1])[1])
-       t1 = float(options.t1) if not options.t1 is None else maxval / 3
-       t2 = float(options.t2) if not options.t2 is None else maxval * 2 / 3
-       thresholds = {
-           t1:     Gre,
-           t2:     Yel,
-           maxval + 1: Red,
-       }
-       data = hcolor(data, thresholds)
+        maxval = int(max(data, key=lambda item: item[1])[1]) if not force_max_value else force_max_value
+        t1 = float(options.t1) if not options.t1 is None else maxval / 3
+        t2 = float(options.t2) if not options.t2 is None else maxval * 2 / 3
+        thresholds = {
+            t1: Gre,
+            t2: Yel,
+            maxval + 1: Red,
+        }
+        data = hcolor(data, thresholds)
 
-
-    counter = 0 
+    counter = 0
     for line in graph.graph(label, data):
-        #skip the first two lines if no label
+        # skip the first two lines if no label
         if not options.label and counter < 2:
             counter = counter + 1
         else:
@@ -142,4 +146,3 @@ if __name__ == '__main__':
                 print(line.encode('utf-8'))
             else:
                 print(line)
-
