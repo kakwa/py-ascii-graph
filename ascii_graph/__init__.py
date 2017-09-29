@@ -105,64 +105,96 @@ class Pyasciigraph:
 
     @staticmethod
     def _color_string(string, color):
+        """append color to a string + reset to white
+        """
         if color is None:
             return string
         else:
             return color + string + '\033[0m'
 
-    def _get_maximum(self, data):
-        all_max = {}
-        all_max['value_max_length'] = 0
-        all_max['info_max_length'] = 0
-        all_max['max_value'] = 0
+    def _get_thresholds(self, data):
+        """get various info (min, max, width... etc)
+        regarding the data.
+        """
+        all_thre = {}
+        all_thre['value_max_length'] = 0
+        all_thre['info_max_length'] = 0
+        all_thre['max_pos_value'] = 0
+        all_thre['min_neg_value'] = 0
 
         if self.max_value is not None:
-            all_max['max_value'] = self.max_value
+            all_thre['max_pos_value'] = self.max_value
 
+        # Iterate on all the items
         for (info, value, color) in data:
             totalvalue_len = 0
+
+            # If we have a list of values for the item
             if isinstance(value, collections.Iterable):
                 icount = 0
                 maxvalue = 0
+                minvalue = 0
                 for (ivalue, icolor) in value:
+                    if ivalue < minvalue:
+                        minvalue = ivalue
                     if ivalue > maxvalue:
                         maxvalue = ivalue
-                    totalvalue_len += len("," + self._trans_hr(ivalue))
+                    if self.multivalue:
+                        totalvalue_len += len("," + self._trans_hr(ivalue))
+                    else:
+                        totalvalue_len = max(totalvalue_len, len(self._trans_hr(ivalue)))
 
                 if self.multivalue:
                     # remove one comma
                     totalvalue_len = totalvalue_len - 1
-                else:
-                    totalvalue_len = len(self._trans_hr(maxvalue))
+
+            # If the item only has one value
             else:
                 totalvalue_len = len(self._trans_hr(value))
                 maxvalue = value
+                minvalue = value
 
-            if maxvalue > all_max['max_value']:
-                all_max['max_value'] = maxvalue
+            if minvalue < all_thre['min_neg_value']:
+                all_thre['min_neg_value'] = minvalue
 
-            if len(info) > all_max['info_max_length']:
-                all_max['info_max_length'] = len(info)
+            if maxvalue > all_thre['max_pos_value']:
+                all_thre['max_pos_value'] = maxvalue
 
-            if totalvalue_len > all_max['value_max_length']:
-                all_max['value_max_length'] = totalvalue_len
+            if len(info) > all_thre['info_max_length']:
+                all_thre['info_max_length'] = len(info)
 
-        return all_max
+            if totalvalue_len > all_thre['value_max_length']:
+                all_thre['value_max_length'] = totalvalue_len
+
+        return all_thre
 
     def _gen_graph_string(
-            self, value, max_value, graph_length, start_value, color):
+            self, value, max_value, min_neg_value, graph_length, start_value_pos, color):
         def _gen_graph_string_part(
-                value, max_value, graph_length, start_value, color, total_value, lastgraph):
-            if max_value == 0:
-                number_of_square = 0
+                value, max_value, min_neg_value, graph_length, color):
+
+            all_width = max_value + abs(min_neg_value)
+
+            if all_width == 0:
+                bar_width = 0
             else:
-                number_of_square = int(value * graph_length / max_value)
-            if lastgraph:
-                number_of_space = int(
-                    start_value - (number_of_square + total_value))
-            else:
-                number_of_space = 0
-            return (Pyasciigraph._color_string(self.graphsymbol * number_of_square + Pyasciigraph._u(' ') * number_of_space, color), number_of_square)
+                bar_width = int(abs(float(value)) * float(graph_length) / float(all_width))
+
+            return (Pyasciigraph._color_string(
+                    self.graphsymbol * bar_width,
+                color),
+                bar_width
+                )
+
+        all_width = max_value + abs(min_neg_value)
+
+        if all_width == 0:
+            bar_width = 0
+            neg_width = 0
+            pos_width = 0
+        else:
+            neg_width = int(abs(float(min_neg_value)) * float(graph_length) / float(all_width))
+            pos_width = int(abs(max_value) * graph_length / all_width)
 
         if isinstance(value, collections.Iterable):
             accuvalue = 0
@@ -170,34 +202,54 @@ class Pyasciigraph:
             totalsquares = 0
             sortedvalue = copy.deepcopy(value)
             sortedvalue.sort(reverse=False, key=lambda tup: tup[0])
-            for i in sortedvalue:
+            pos_value = [x for x in sortedvalue if x[0] >= 0]
+            neg_value = [x for x in sortedvalue if x[0] < 0]
+
+            for i in reversed(neg_value):
                 ivalue = i[0]
                 icolor = i[1]
                 scaled_value = ivalue - accuvalue
-                # Check if last item in list, if so then add spaces to the end
-                # to align the value and label
-                if i == sortedvalue[-1]:
-                    (partstr, squares) = _gen_graph_string_part(
-                        scaled_value, max_value, graph_length, start_value, icolor, totalsquares, True)
-                    totalstring += partstr
-                    totalsquares += squares
-                else:
-                    (partstr, squares) = _gen_graph_string_part(
-                        scaled_value, max_value, graph_length, start_value, icolor, totalsquares, False)
-                    totalstring += partstr
-                    totalsquares += squares
+                (partstr, squares) = _gen_graph_string_part(
+                    scaled_value, max_value, min_neg_value, graph_length, icolor)
+                totalstring = partstr + totalstring
+                totalsquares += squares
                 accuvalue += scaled_value
+
+            totalstring = Pyasciigraph._u(' ') * (neg_width - abs(totalsquares)) + totalstring
+
+            accuvalue = 0
+            totalsquares = 0
+
+            for i in pos_value:
+                ivalue = i[0]
+                icolor = i[1]
+                scaled_value = ivalue - accuvalue
+                (partstr, squares) = _gen_graph_string_part(
+                    scaled_value, max_value, min_neg_value, graph_length, icolor)
+                totalstring += partstr
+                totalsquares += squares
+                accuvalue += scaled_value
+
+            totalstring += Pyasciigraph._u(' ') * (start_value_pos - neg_width - abs(totalsquares))
             return totalstring
         else:
             (partstr, squares) = _gen_graph_string_part(
-                value, max_value, graph_length, start_value, color, 0, True)
-            return partstr
+                value, max_value, min_neg_value, graph_length, color)
+            if value >= 0:
+                return Pyasciigraph._u(' ') * neg_width + \
+                        partstr + \
+                        Pyasciigraph._u(' ') * (start_value_pos - (neg_width + squares))
+            else:
+                return Pyasciigraph._u(' ') * (neg_width - squares) +\
+                        partstr +\
+                        Pyasciigraph._u(' ') * (start_value_pos - neg_width)
 
-    def _gen_info_string(self, info, start_info, line_length):
-        number_of_space = (line_length - start_info - len(info))
+
+    def _gen_info_string(self, info, start_info_pos, line_length):
+        number_of_space = (line_length - start_info_pos - len(info))
         return info + Pyasciigraph._u(' ') * number_of_space
 
-    def _gen_value_string(self, value, color, start_value, start_info):
+    def _gen_value_string(self, value, min_neg_value, color, start_value_pos, start_info_pos):
 
         icount = 0
         if isinstance(value, collections.Iterable) and self.multivalue:
@@ -217,7 +269,7 @@ class Pyasciigraph:
                             icolor)
                 icount += 1
         elif isinstance(value, collections.Iterable):
-            max_value = 0
+            max_value = min_neg_value
             color = None
             for (ivalue, icolor) in value:
                 if ivalue > max_value:
@@ -232,8 +284,8 @@ class Pyasciigraph:
             totalvalue = Pyasciigraph._color_string(
                 self._trans_hr(value), color)
 
-        number_space = start_info -\
-            start_value -\
+        number_space = start_info_pos -\
+            start_value_pos -\
             totalvalue_len -\
             self.separator_length
 
@@ -244,7 +296,7 @@ class Pyasciigraph:
 
         return  ' ' * number_space + totalvalue +\
                 ' ' * \
-            ((start_info - start_value - totalvalue_len)
+            ((start_info_pos - start_value_pos - totalvalue_len)
              - number_space)
 
     def _sanitize_string(self, string):
@@ -310,7 +362,7 @@ class Pyasciigraph:
         """
         result = []
         san_data = self._sanitize_data(data)
-        all_max = self._get_maximum(san_data)
+        all_thre = self._get_thresholds(san_data)
 
         if not label is None:
             san_label = self._sanitize_string(label)
@@ -322,30 +374,30 @@ class Pyasciigraph:
 
         min_line_length = self.min_graph_length +\
             2 * self.separator_length +\
-            all_max['value_max_length'] +\
-            all_max['info_max_length']
+            all_thre['value_max_length'] +\
+            all_thre['info_max_length']
 
         if min_line_length < real_line_length:
             # calcul of where to start info
-            start_info = self.line_length -\
-                all_max['info_max_length']
+            start_info_pos = self.line_length -\
+                all_thre['info_max_length']
             # calcul of where to start value
-            start_value = start_info -\
+            start_value_pos = start_info_pos -\
                 self.separator_length -\
-                all_max['value_max_length']
+                all_thre['value_max_length']
             # calcul of where to end graph
-            graph_length = start_value -\
+            graph_length = start_value_pos -\
                 self.separator_length
         else:
             # calcul of where to start value
-            start_value = self.min_graph_length +\
+            start_value_pos = self.min_graph_length +\
                 self.separator_length
             # calcul of where to start info
-            start_info = start_value +\
-                all_max['value_max_length'] +\
+            start_info_pos = start_value_pos +\
+                all_thre['value_max_length'] +\
                 self.separator_length
             # calcul of where to end graph
-            graph_length = start_value -\
+            graph_length = start_value_pos -\
                 self.separator_length
             # calcul of the real line length
             real_line_length = min_line_length
@@ -358,22 +410,24 @@ class Pyasciigraph:
 
             graph_string = self._gen_graph_string(
                 value,
-                    all_max['max_value'],
+                    all_thre['max_pos_value'],
+                    all_thre['min_neg_value'],
                     graph_length,
-                    start_value,
+                    start_value_pos,
                     color
             )
 
             value_string = self._gen_value_string(
                 value,
+                    all_thre['min_neg_value'],
                     color,
-                    start_value,
-                    start_info,
+                    start_value_pos,
+                    start_info_pos,
             )
 
             info_string = self._gen_info_string(
                 info,
-                    start_info,
+                    start_info_pos,
                     real_line_length
             )
             new_line = graph_string + value_string + info_string
