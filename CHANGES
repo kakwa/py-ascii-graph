@@ -1,3 +1,8 @@
+* 1.4.0
+
+    * Adding --force-max-value (-x) option to command line tool to set max value. (Thanks to GerritRV)
+    * Add handling for negative values
+
 * 1.3.0
 
     * Adding force_max_value optional parameter (permits to force a given scale) (Thanks to Yuly Tenorio)

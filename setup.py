@@ -40,7 +40,7 @@ except ImportError:
 
 setup(
     name = 'ascii_graph',
-    version = '1.3.0',
+    version = '1.4.0',
     author = 'Pierre-Francois Carpentier',
     author_email = 'carpentier.pf@gmail.com',
     packages = ['ascii_graph'],
