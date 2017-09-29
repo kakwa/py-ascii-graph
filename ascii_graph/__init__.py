@@ -98,6 +98,8 @@ class Pyasciigraph:
 
     @staticmethod
     def _u(x):
+        """Unicode compat helper
+        """
         if sys.version < '3':
             return x + ''.decode("utf-8")
         else:
@@ -105,7 +107,7 @@ class Pyasciigraph:
 
     @staticmethod
     def _color_string(string, color):
-        """append color to a string + reset to white
+        """append color to a string + reset to white at the end of the string
         """
         if color is None:
             return string
@@ -114,7 +116,7 @@ class Pyasciigraph:
 
     def _get_thresholds(self, data):
         """get various info (min, max, width... etc)
-        regarding the data.
+        from the data to graph.
         """
         all_thre = {}
         all_thre['value_max_length'] = 0
@@ -139,13 +141,19 @@ class Pyasciigraph:
                         minvalue = ivalue
                     if ivalue > maxvalue:
                         maxvalue = ivalue
+                    # if we are in multivalued mode, the value string is
+                    # the concatenation of the values, separeted by a ',',
+                    # len() must be computed on it
+                    # if we are not in multivalued mode, len() is just the
+                    # longer str(value) len ( /!\, value can be negative,
+                    # which means that it's not simply len(str(max_value)))
                     if self.multivalue:
                         totalvalue_len += len("," + self._trans_hr(ivalue))
                     else:
                         totalvalue_len = max(totalvalue_len, len(self._trans_hr(ivalue)))
 
                 if self.multivalue:
-                    # remove one comma
+                    # remove one comma if multivalues
                     totalvalue_len = totalvalue_len - 1
 
             # If the item only has one value
@@ -170,6 +178,8 @@ class Pyasciigraph:
 
     def _gen_graph_string(
             self, value, max_value, min_neg_value, graph_length, start_value_pos, color):
+        """Generate the bar + its paddings (left and right)
+        """
         def _gen_graph_string_part(
                 value, max_value, min_neg_value, graph_length, color):
 
@@ -200,11 +210,13 @@ class Pyasciigraph:
             accuvalue = 0
             totalstring = ""
             totalsquares = 0
+
             sortedvalue = copy.deepcopy(value)
             sortedvalue.sort(reverse=False, key=lambda tup: tup[0])
             pos_value = [x for x in sortedvalue if x[0] >= 0]
             neg_value = [x for x in sortedvalue if x[0] < 0]
 
+            # for the negative values, we build the bar + padding from 0 to the left
             for i in reversed(neg_value):
                 ivalue = i[0]
                 icolor = i[1]
@@ -215,11 +227,14 @@ class Pyasciigraph:
                 totalsquares += squares
                 accuvalue += scaled_value
 
+            # left padding
             totalstring = Pyasciigraph._u(' ') * (neg_width - abs(totalsquares)) + totalstring
 
+            # reset some counters
             accuvalue = 0
             totalsquares = 0
 
+            # for the positive values we build the bar from 0 to the right
             for i in pos_value:
                 ivalue = i[0]
                 icolor = i[1]
@@ -230,9 +245,11 @@ class Pyasciigraph:
                 totalsquares += squares
                 accuvalue += scaled_value
 
+            # right padding
             totalstring += Pyasciigraph._u(' ') * (start_value_pos - neg_width - abs(totalsquares))
             return totalstring
         else:
+            # handling for single value item
             (partstr, squares) = _gen_graph_string_part(
                 value, max_value, min_neg_value, graph_length, color)
             if value >= 0:
@@ -246,11 +263,14 @@ class Pyasciigraph:
 
 
     def _gen_info_string(self, info, start_info_pos, line_length):
+        """Generate the info string + padding
+        """
         number_of_space = (line_length - start_info_pos - len(info))
         return info + Pyasciigraph._u(' ') * number_of_space
 
     def _gen_value_string(self, value, min_neg_value, color, start_value_pos, start_info_pos):
-
+        """Generate the value string + padding
+        """
         icount = 0
         if isinstance(value, collections.Iterable) and self.multivalue:
             for (ivalue, icolor) in value:
@@ -300,6 +320,8 @@ class Pyasciigraph:
              - number_space)
 
     def _sanitize_string(self, string):
+        """try to convert strings to UTF-8
+        """
         # get the type of a unicode string
         unicode_type = type(Pyasciigraph._u('t'))
         input_type = type(string)
@@ -318,6 +340,8 @@ class Pyasciigraph:
         return info
 
     def _sanitize_value(self, value):
+        """try to values to UTF-8
+        """
         if isinstance(value, collections.Iterable):
             newcollection = []
             for i in value:
