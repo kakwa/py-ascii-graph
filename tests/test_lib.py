@@ -17,6 +17,10 @@ def u(x):
     else:
         return x
 
+def gprint(res):
+    for l in res:
+        print(l)
+
 class TestLib(object):
 
         def test_unsorted_default_params(self):
@@ -32,6 +36,8 @@ class TestLib(object):
 '█████████                                                       200  line4     ',
 '█████████████████████████████████████████                       834  line5     ',
 ]
+            gprint(res)
+            gprint(expected)
             assert res == expected
 
         def test_float_format(self):
@@ -47,6 +53,8 @@ class TestLib(object):
 '█████████                                                    200.00  line4     ',
 '██████████████████████████████████████                       834.00  line5     ',
 ]
+            gprint(res)
+            gprint(expected)
             assert res == expected
 
 
@@ -64,6 +72,8 @@ class TestLib(object):
 '                                                                  0  line4     ',
 '                                                                  0  line5     ',
 ]
+            gprint(res)
+            gprint(expected)
             assert res == expected
 
         def test_human_readable_si(self):
@@ -83,7 +93,8 @@ class TestLib(object):
 '                                                                 1Y  line8     ',
 '█████████████████████████████████████████████████████████████  123Y  line9     ',
 ]
-
+            gprint(res)
+            gprint(expected)
             assert res == expected
 
         def test_human_readable_cs(self):
@@ -102,6 +113,8 @@ class TestLib(object):
 '                                                                 1Z  line7     ',
 '███████████████████████████████████████████████████████████████  1Y  line8     '
 ]
+            gprint(res)
+            gprint(expected)
             assert res == expected
 
         def test_type_output(self):
@@ -128,7 +141,8 @@ class TestLib(object):
 '██████████                                                           200  line4',
 '████████████████████████████████████████████                         834  line5',
 ]
-
+            gprint(res)
+            gprint(expected)
             assert res == expected
 
         def test_no_label(self):
@@ -142,7 +156,8 @@ class TestLib(object):
 '██████████                                                           200  line4',
 '████████████████████████████████████████████                         834  line5',
 ]
-
+            gprint(res)
+            gprint(expected)
             assert res == expected
 
         def test_vcolor(self):
@@ -184,6 +199,8 @@ class TestLib(object):
 '*********                                                       200  line4     ',
 '*****************************************                       834  line5     ',
 ]
+            gprint(res)
+            gprint(expected)
             assert res == expected
 
         def test_graphsymbol_bad_length(self):
@@ -204,6 +221,8 @@ class TestLib(object):
             graph = Pyasciigraph()
             res = graph.graph('test graph', test)
             expected = ['test graph', '###############################################################################', '\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588                                                142  testval0', '\x1b[1;35m\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588                                        \x1b[0m\x1b[1;35m204\x1b[0m  testval1', '\x1b[4;31m\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588  \x1b[0m\x1b[4;31m501\x1b[0m  testval2', '\x1b[0;91m\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588                                                     \x1b[0m\x1b[0;91m103\x1b[0m  testval3', '\x1b[1;92m\u2588\u2588\u2588                                                               \x1b[0m \x1b[1;92m29\x1b[0m  testval4', '\x1b[4;33m\u2588\u2588                                                                \x1b[0m \x1b[4;33m19\x1b[0m  testval5', '\x1b[0;96m\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588                                                      \x1b[0m \x1b[0;96m99\x1b[0m  testval6', '\x1b[1;34m\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588               \x1b[0m\x1b[1;34m404\x1b[0m  testval7']
+            gprint(res)
+            gprint(expected)
             assert res == expected
 
         def test_mulivalue_color_graphs(self):
@@ -239,6 +258,8 @@ class TestLib(object):
 '\x1b[0;34m\u2588\u2588\u2588\u2588\u2588                                                           \x1b[0m \x1b[0;34m50\x1b[0m    testval5',
 '\x1b[0;32m\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\x1b[0m\x1b[0;31m\u2588\u2588\u2588\u2588\u2588\x1b[0m\x1b[0;33m\u2588\u2588\u2588\u2588\u2588\x1b[0m\x1b[0;34m\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588    \x1b[0m\x1b[0;34m600\x1b[0m    testval6'
 ]
+            gprint(res)
+            gprint(expected)
             assert res == expected
 
         def test_force_max_value_param(self):
@@ -254,5 +275,7 @@ class TestLib(object):
 '██████                                                          200  line4     ',
 '█████████████████████████                                       834  line5     '
 ]
+            gprint(res)
+            gprint(expected)
             assert res == expected
 
