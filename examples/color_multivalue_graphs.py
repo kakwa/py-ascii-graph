@@ -7,9 +7,10 @@ test = [('testval0', 600),
            ('testval1', 400, Red),
            ('testval2', [(600, Gre), (500, Blu)]),
            ('testval3', [(200, Yel), (100,)]),
-           ('testval4', 100, Cya),
+           ('testval4', -170, Cya),
            ('testval5', 50, Blu),
-           ('testval6', [(100, Gre), (150, Red), (200, Yel), (600, Blu)])]
+           ('testval6', [(-300, Gre), (-230, Red)]),
+           ('testval7', [(-100, Gre), (-230, Red), (200, Yel), (600, Blu)])]
 
 # Multicolor with all the values displayed
 graph = Pyasciigraph(separator_length=4)
@@ -26,7 +27,7 @@ from ascii_graph.colordata import hcolor
 
 test = [('testval0', 600),
         ('testval1', 500),
-        ('testval2', 400),
+        ('testval2', -400),
         ('testval3', 400),
         ('testval4', 300),
         ('testval5', 200),
