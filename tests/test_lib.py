@@ -47,10 +47,7 @@ class TestLib(object):
             expected = [u'\u262dtest print', u'###############################################################################', u'\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588                                         423  long_labe\u262d (\x1b[92m+\x1b[0m)', u'\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588  1234  sl (\x1b[91m-\x1b[0m)        ', u'\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588                                    531  line3 (\x1b[91m-\x1b[0m)     ', u'\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588                                                   200  line4         ', u'\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588                      834  line5         ']
             gprint(res)
             gprint(expected)
-            print res
             assert res == expected
-
-
 
         def test_float_format(self):
             test = [('long_labe☭', 423.197), ('sl', 1234.12341), ('line3', 531.11), ('line4', 200), ('line5', 834)]
@@ -68,8 +65,6 @@ class TestLib(object):
             gprint(res)
             gprint(expected)
             assert res == expected
-
-
 
         def test_zeros(self):
             test = [('long_labe☭', 0), ('sl', 0), ('line3', 0), ('line4', 0), ('line5', 0)]
@@ -220,7 +215,6 @@ class TestLib(object):
             with pytest.raises(Exception) as e:
                 graph = Pyasciigraph(graphsymbol='*0')
 
-
         def test_color_graphs(self):
             test = [('testval0', 142),
                        ('testval1', 204, BPur),
@@ -312,8 +306,6 @@ class TestLib(object):
             gprint(expected)
             assert res == expected
 
-
-
         def test_neg_multicolor(self):
             test = [('testval0', 600),
                     ('testval1', 400, Red),
@@ -329,4 +321,3 @@ class TestLib(object):
             gprint(res)
             gprint(expected)
             assert res == expected
-
