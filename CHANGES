@@ -4,65 +4,64 @@
 
 * 1.4.0
 
-    * Adding --force-max-value (-x) option to command line tool to set max value. (Thanks to GerritRV)
+    * Add --force-max-value (-x) option to command line tool to set max value. (Thanks to GerritRV)
     * Add handling for negative values
 
 * 1.3.0
 
-    * Adding force_max_value optional parameter (permits to force a given scale) (Thanks to Yuly Tenorio)
+    * Add force_max_value optional parameter (permits to force a given scale) (Thanks to Yuly Tenorio)
 
 * 1.2.0
 
-    * implement float formatting (float_format parameter in constructor, -F switch in CLI) (thanks to interrogator)
+    * Add float formatting (float_format parameter in constructor, -F switch in CLI) (thanks to interrogator)
 
 * 1.1.4
 
-    * fix DivisionByZero in case all values are 0
+    * Fix DivisionByZero in case all values are 0
 
 * 1.1.3
 
-    * fix typo in long option name for human readable mode in cli tool
-    * reorganize --help to be more consistant in cli tool
+    * Fix typo in long option name for human readable mode in cli tool
+    * Improve --help to be more consistent in cli tool
 
 * 1.1.2
 
-    * fix bad format/empty dataset in asciigraph command line tool
+    * Fix bad format/empty dataset in asciigraph command line tool
 
 * 1.1.1
 
-    * fix auto-threshold calculation in asciigraph command line tool
+    * Fix auto-threshold calculation in asciigraph command line tool
 
 * 1.1.0
 
-    * adding human readable flag (power of 1000 or 1024)
-    * fixing multi values display alignment
+    * Add human readable flag (power of 1000 or 1024)
+    * Fix multi values display alignment
 
 * 1.0.1
 
-    * Light cleaning in source code
-    * Test for python 3.4
-    * Better documentation
+    * Add testing on python 3.4
+    * Improve source code readability
+    * Improve documentation
 
 * 1.0.0
 
-    * Remove sort capabilities
-    * Add coloring capabilities (mono and multi color)
-      (big thanks to David Whiteside)
+    * Add coloring capabilities (mono and multi color) (big thanks to David Whiteside)
     * Add some functions and constants to help color data
-    * Adding possibility to change the symbol used for the graph bar
-    * Better unit tests
-    * Documentation improvement
+    * Add possibility to change the symbol used for the graph bar
+    * Improve unit tests
+    * Improve documentation
+    * Remove sort capabilities
 
 * 0.2.1
 
-    * Small documentation improvement
+    * Improve documentation
 
 * 0.2.0
 
-    * Fix number of encoding issues
     * Add a sort capability
     * Add unit tests
     * Add a command line utility (asciigraph)
+    * Fix number of encoding issues
 
 * 0.1.0
 
