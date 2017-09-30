@@ -1,3 +1,7 @@
+* 1.4.1
+
+    * Fix length computation with string containing ANSI control characters
+
 * 1.4.0
 
     * Adding --force-max-value (-x) option to command line tool to set max value. (Thanks to GerritRV)
