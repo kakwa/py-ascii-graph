@@ -25,14 +25,14 @@ for line in graph.graph('test graph mono value', test):
 # Coloring data according to thresholds
 from ascii_graph.colordata import hcolor
 
-test = [('testval0', 600),
-        ('testval1', 500),
-        ('testval2', -400),
-        ('testval3', 400),
-        ('testval4', 300),
-        ('testval5', 200),
-        ('testval6', 100),
-        ('testval7', 50 )]
+test = [('testval0 (\033[92m+\033[0m)', 600),
+        ('testval1 (\033[91m-\033[0m)', 500),
+        ('testval2 (\033[92m+\033[0m)', -400),
+        ('testval3 (\033[92m+\033[0m)', 400),
+        ('testval4 (\033[92m+\033[0m)', 300),
+        ('testval5 (\033[91m-\033[0m)', 200),
+        ('testval6 (\033[92m+\033[0m)', 100),
+        ('testval7 (\033[92m+\033[0m)', 50 )]
 
 thresholds = {
   51:  Gre,

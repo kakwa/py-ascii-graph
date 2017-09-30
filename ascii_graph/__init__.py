@@ -3,6 +3,7 @@
 
 from __future__ import unicode_literals
 import sys
+import re
 import collections
 import copy
 
@@ -68,9 +69,9 @@ class Pyasciigraph:
             self.graphsymbol = self._u('█')
         else:
             self.graphsymbol = graphsymbol
-        if len(self.graphsymbol) != 1:
+        if self._len_noansi(self.graphsymbol) != 1:
             raise Exception('Bad graphsymbol length, must be 1',
-                            len(self.graphsymbol))
+                            self._len_noansi(self.graphsymbol))
         self.multivalue = multivalue
         self.hsymbols = [self._u(''), self._u('K'), self._u('M'),
                          self._u('G'), self._u('T'), self._u('P'),
@@ -82,6 +83,11 @@ class Pyasciigraph:
             self.divider = 1024
         else:
             self.divider = None
+
+    @staticmethod
+    def _len_noansi(string):
+        l = len(re.sub('\x1b[^m]*m', '', string))
+        return l
 
     def _trans_hr(self, value):
 
@@ -168,8 +174,8 @@ class Pyasciigraph:
             if maxvalue > all_thre['max_pos_value']:
                 all_thre['max_pos_value'] = maxvalue
 
-            if len(info) > all_thre['info_max_length']:
-                all_thre['info_max_length'] = len(info)
+            if self._len_noansi(info) > all_thre['info_max_length']:
+                all_thre['info_max_length'] = self._len_noansi(info)
 
             if totalvalue_len > all_thre['value_max_length']:
                 all_thre['value_max_length'] = totalvalue_len
@@ -265,7 +271,7 @@ class Pyasciigraph:
     def _gen_info_string(self, info, start_info_pos, line_length):
         """Generate the info string + padding
         """
-        number_of_space = (line_length - start_info_pos - len(info))
+        number_of_space = (line_length - start_info_pos - self._len_noansi(info))
         return info + Pyasciigraph._u(' ') * number_of_space
 
     def _gen_value_string(self, value, min_neg_value, color, start_value_pos, start_info_pos):
@@ -390,7 +396,7 @@ class Pyasciigraph:
 
         if not label is None:
             san_label = self._sanitize_string(label)
-            label_len = len(san_label)
+            label_len = self._len_noansi(san_label)
         else:
             label_len = 0
 
