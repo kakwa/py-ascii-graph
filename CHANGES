@@ -1,3 +1,7 @@
+* 1.4.2
+
+    * Fix setup.py to handle encoding properly, and fallback to safe values in errors (license and long description)
+
 * 1.4.1
 
     * Fix length computation with string containing ANSI control characters

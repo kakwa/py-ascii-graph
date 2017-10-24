@@ -3,17 +3,20 @@ import os
 import sys
 from distutils.core import setup
 
+description = 'A simple python lib to print data as ascii histograms.'
 
 try:
-    f = open(os.path.join(os.path.dirname(__file__), 'README.rst'))
-    description = f.read()
+    f = open(os.path.join(os.path.dirname(__file__), 'README.rst'), encoding='utf-8')
+    long_description = f.read()
     f.close()
-except IOError:
-    description = 'ascii_graph'
+except:
+    long_description = description
     
 try:
-    license = open('LICENSE').read()
-except IOError:
+    f = open(os.path.join(os.path.dirname(__file__), 'LICENSE'), encoding='utf-8')
+    license = f.read()
+    f.close()
+except:
     license = 'MIT'
 
 try:
@@ -33,22 +36,21 @@ try:
             sys.exit(errno)
 
 except ImportError:
-
     from distutils.core import setup
     PyTest = lambda x: x
 
 
 setup(
     name = 'ascii_graph',
-    version = '1.4.1',
+    version = '1.4.2',
     author = 'Pierre-Francois Carpentier',
     author_email = 'carpentier.pf@gmail.com',
     packages = ['ascii_graph'],
     scripts = ['scripts/asciigraph'],
     url = 'https://github.com/kakwa/py-ascii-graph',
     license = license,
-    description = 'A simple python lib to print data as ascii histograms.',
-    long_description = description,
+    description = description,
+    long_description = long_description,
     install_requires = [],
     tests_require=['pytest'],
     cmdclass={'test': PyTest},
