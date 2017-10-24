@@ -6,14 +6,20 @@ from distutils.core import setup
 description = 'A simple python lib to print data as ascii histograms.'
 
 try:
-    f = open(os.path.join(os.path.dirname(__file__), 'README.rst'), encoding='utf-8')
+    if sys.version < '3':
+        f = open(os.path.join(os.path.dirname(__file__), 'README.rst'))
+    else:
+        f = open(os.path.join(os.path.dirname(__file__), 'README.rst'), encoding='utf-8')
     long_description = f.read()
     f.close()
 except:
     long_description = description
     
 try:
-    f = open(os.path.join(os.path.dirname(__file__), 'LICENSE'), encoding='utf-8')
+    if sys.version < '3':
+        f = open(os.path.join(os.path.dirname(__file__), 'LICENSE'))
+    else:
+        f = open(os.path.join(os.path.dirname(__file__), 'LICENSE'), encoding='utf-8')
     license = f.read()
     f.close()
 except:
@@ -42,7 +48,7 @@ except ImportError:
 
 setup(
     name = 'ascii_graph',
-    version = '1.4.2',
+    version = '1.4.3',
     author = 'Pierre-Francois Carpentier',
     author_email = 'carpentier.pf@gmail.com',
     packages = ['ascii_graph'],

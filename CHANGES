@@ -1,3 +1,7 @@
+* 1.4.3
+
+    * Fix loading of license and long description (it was systematically fallbacking to default values with python2.7)
+
 * 1.4.2
 
     * Fix setup.py to handle encoding properly, and fallback to safe values in errors (license and long description)
