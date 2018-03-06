@@ -22,7 +22,7 @@ A simple python lib to print data as ascii histograms
     :target: http://py-ascii-graph.readthedocs.org/en/latest/?badge=latest
     :alt: Documentation Status
 
-.. .. image:: https://pypip.in/py_versions/ascii_graph/badge.svg
+.. .. image:: https://img.shields.io/pypi/pyversions/ascii_graph.svg
 ..    :target: https://pypi.python.org/pypi/ascii_graph
 ..    :alt: Supported Python Versions
 
