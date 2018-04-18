@@ -6,6 +6,7 @@ import sys
 import re
 import collections
 import copy
+import six
 
 
 class Pyasciigraph:
@@ -87,7 +88,7 @@ class Pyasciigraph:
             self.divider = 1024
         else:
             self.divider = None
-        if isinstance(titlebar, unicode) or isinstance(titlebar, str):
+        if isinstance(titlebar, six.string_types):
             self.titlebar = titlebar
         else:
            self.titlebar = '#'
