@@ -17,7 +17,8 @@ class Pyasciigraph:
                  graphsymbol=None,
                  multivalue=True,
                  human_readable=None,
-                 float_format='{0:.0f}'
+                 float_format='{0:.0f}',
+                 titlebar='#'
                  ):
         """Constructor of Pyasciigraph
 
@@ -58,6 +59,9 @@ class Pyasciigraph:
           Default: '{0:.0f}' (convert to integers).
           expample: '{:,.2f}' (2 decimals, '.' to separate decimal and int,
           ',' every three power of tens).
+        :param titlebar: sets the character(s) for the horizontal title bar
+          Default: '#'
+        :type titlebar: string
         """
 
         self.line_length = line_length
@@ -83,6 +87,10 @@ class Pyasciigraph:
             self.divider = 1024
         else:
             self.divider = None
+        if isinstance(titlebar, unicode) or isinstance(titlebar, str):
+            self.titlebar = titlebar
+        else:
+           self.titlebar = '#'
 
     @staticmethod
     def _len_noansi(string):
@@ -434,7 +442,7 @@ class Pyasciigraph:
 
         if not label is None:
             result.append(san_label)
-            result.append(Pyasciigraph._u('#') * real_line_length)
+            result.append(Pyasciigraph._u(self.titlebar) * real_line_length)
 
         for info, value, color in san_data:
 
