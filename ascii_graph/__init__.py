@@ -88,10 +88,6 @@ class Pyasciigraph:
             self.divider = 1024
         else:
             self.divider = None
-        if isinstance(titlebar, six.string_types):
-            self.titlebar = titlebar
-        else:
-           self.titlebar = '#'
 
     @staticmethod
     def _len_noansi(string):
