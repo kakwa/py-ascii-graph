@@ -1,3 +1,7 @@
+* 1.5.0
+
+    * Add possibility to change the titlebar character (thanks to Denis Khoshaba)
+
 * 1.4.3
 
     * Fix loading of license and long description (it was systematically fallbacking to default values with python2.7)
