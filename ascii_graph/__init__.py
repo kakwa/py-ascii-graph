@@ -70,6 +70,7 @@ class Pyasciigraph:
         self.min_graph_length = min_graph_length
         self.max_value = force_max_value
         self.float_format = float_format
+        self.titlebar = titlebar
         if graphsymbol is None:
             self.graphsymbol = self._u('█')
         else:
