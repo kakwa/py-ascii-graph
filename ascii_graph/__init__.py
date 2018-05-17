@@ -6,7 +6,6 @@ import sys
 import re
 import collections
 import copy
-import six
 
 
 class Pyasciigraph:
