@@ -48,7 +48,7 @@ except ImportError:
 
 setup(
     name = 'ascii_graph',
-    version = '1.5.0',
+    version = '1.5.1',
     author = 'Pierre-Francois Carpentier',
     author_email = 'carpentier.pf@gmail.com',
     packages = ['ascii_graph'],

@@ -1,3 +1,7 @@
+* 1.5.1
+
+    * Fix remove unecessary import to six
+
 * 1.5.0
 
     * Add possibility to change the titlebar character (thanks to Denis Khoshaba)
