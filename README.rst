@@ -1,3 +1,5 @@
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fkakwa%2Fpy-ascii-graph.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fkakwa%2Fpy-ascii-graph?ref=badge_shield)
+
 py-ascii-graph
 ==============
 
@@ -191,3 +193,7 @@ or
     $ easy_install ascii_graph
 
 
+
+
+## License
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fkakwa%2Fpy-ascii-graph.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fkakwa%2Fpy-ascii-graph?ref=badge_large)
