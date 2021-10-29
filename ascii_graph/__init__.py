@@ -4,8 +4,12 @@
 from __future__ import unicode_literals
 import sys
 import re
-import collections
 import copy
+
+if sys.version < '3' or sys.version.startswith('3.0.') or sys.version.startswith('3.1.') or sys.version.startswith('3.2.'):
+    from collections import Iterable
+else:
+    from collections.abc import Iterable
 
 
 class Pyasciigraph:
@@ -143,7 +147,7 @@ class Pyasciigraph:
             totalvalue_len = 0
 
             # If we have a list of values for the item
-            if isinstance(value, collections.Iterable):
+            if isinstance(value, Iterable):
                 icount = 0
                 maxvalue = 0
                 minvalue = 0
@@ -217,7 +221,7 @@ class Pyasciigraph:
             neg_width = int(abs(float(min_neg_value)) * float(graph_length) / float(all_width))
             pos_width = int(abs(max_value) * graph_length / all_width)
 
-        if isinstance(value, collections.Iterable):
+        if isinstance(value, Iterable):
             accuvalue = 0
             totalstring = ""
             totalsquares = 0
@@ -283,7 +287,7 @@ class Pyasciigraph:
         """Generate the value string + padding
         """
         icount = 0
-        if isinstance(value, collections.Iterable) and self.multivalue:
+        if isinstance(value, Iterable) and self.multivalue:
             for (ivalue, icolor) in value:
                 if icount == 0:
                     # total_len is needed because the color characters count
@@ -299,7 +303,7 @@ class Pyasciigraph:
                             self._trans_hr(ivalue),
                             icolor)
                 icount += 1
-        elif isinstance(value, collections.Iterable):
+        elif isinstance(value, Iterable):
             max_value = min_neg_value
             color = None
             for (ivalue, icolor) in value:
@@ -353,7 +357,7 @@ class Pyasciigraph:
     def _sanitize_value(self, value):
         """try to values to UTF-8
         """
-        if isinstance(value, collections.Iterable):
+        if isinstance(value, Iterable):
             newcollection = []
             for i in value:
                 if len(i) == 1:
@@ -368,7 +372,7 @@ class Pyasciigraph:
         ret = []
         for item in data:
             if (len(item) == 2):
-                if isinstance(item[1], collections.Iterable):
+                if isinstance(item[1], Iterable):
                     ret.append(
                         (self._sanitize_string(item[0]),
                          self._sanitize_value(item[1]),
