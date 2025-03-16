@@ -3,17 +3,17 @@ py-ascii-graph
 
 A simple python lib to print data as ascii histograms
 
-.. image:: https://secure.travis-ci.org/kakwa/py-ascii-graph.png?branch=master
-        :target: http://travis-ci.org/kakwa/py-ascii-graph
-        :alt: Travis CI
+.. image:: https://github.com/kakwa/py-ascii-graph/actions/workflows/tests.yml/badge.svg
+    :target: ttps://github.com/kakwa/py-ascii-graph/actions/workflows/tests.yml
+    :alt: Python Tests
     
 .. image:: https://img.shields.io/pypi/v/ascii_graph.svg
     :target: https://pypi.python.org/pypi/ascii_graph
     :alt: PyPI version
 
 .. image:: https://badges.gitter.im/Join%20Chat.svg
-   :alt: Join the chat at https://gitter.im/kakwa/py-ascii-graph
-   :target: https://gitter.im/kakwa/py-ascii-graph?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge
+    :alt: Join the chat at https://gitter.im/kakwa/py-ascii-graph
+    :target: https://gitter.im/kakwa/py-ascii-graph?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge
 
 .. image:: https://coveralls.io/repos/kakwa/py-ascii-graph/badge.svg?branch=master 
     :target: https://coveralls.io/r/kakwa/py-ascii-graph?branch=master
