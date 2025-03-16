@@ -1,3 +1,7 @@
+* 1.5.2
+
+	* Fix Collection handling & Python > 3.0 (thanks to  Yuri Astrakhan)
+
 * 1.5.1
 
     * Fix remove unecessary import to six
