@@ -1,6 +1,7 @@
 * 1.5.2
 
-	* Fix Collection handling & Python > 3.0 (thanks to  Yuri Astrakhan)
+	* Fix Collection handling & Python > 3.9 (thanks to  Yuri Astrakhan)
+	* Various project chores (CI, doc, change main git branch).
 
 * 1.5.1
 
