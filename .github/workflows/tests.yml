@@ -12,9 +12,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python-version: ['2.7', '3.5', '3.6', '3.7', '3.8', '3.9', '3.10']
-        # Note: Python 3.3 and 3.4 are EOL and not available in GitHub Actions
-        # Added newer Python versions (3.7-3.10) as replacements
+        python-version: ['3.9', '3.10', '3.11', '3.12', '3.13']
 
     steps:
     - uses: actions/checkout@v3
@@ -48,4 +46,4 @@ jobs:
     - name: Coveralls Finished
       uses: coverallsapp/github-action@v2
       with:
-        parallel-finished: true 
+        parallel-finished: true
