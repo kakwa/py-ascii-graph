@@ -18,9 +18,9 @@ A simple python lib to print data as ascii histograms
 .. image:: https://coveralls.io/repos/kakwa/py-ascii-graph/badge.svg?branch=master 
     :target: https://coveralls.io/r/kakwa/py-ascii-graph?branch=master
 
-.. image:: https://readthedocs.org/projects/py-ascii-graph/badge/?version=latest
-    :target: http://py-ascii-graph.readthedocs.org/en/latest/?badge=latest
-    :alt: Documentation Status
+.. image:: https://github.com/kakwa/py-ascii-graph/actions/workflows/docs.yml/badge.svg
+    :target: https://kakwa.github.io/py-ascii-graph/
+    :alt: Documentation
 
 .. .. image:: https://img.shields.io/pypi/pyversions/ascii_graph.svg
 ..    :target: https://pypi.python.org/pypi/ascii_graph
